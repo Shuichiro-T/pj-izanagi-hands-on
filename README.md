@@ -1,12 +1,13 @@
 # 概要
-プロジェクトイザナギ用のハンズオンリポジトリです。
-各ブランチの指示に従って進めてみてください。
+環境構築のステップです。
 
+# インストールするもの
+ - [Visual Studio Code](https://code.visualstudio.com/)
+ - [Docker](https://www.docker.com/get-started/)
+ - [Node.js](https://nodejs.org/en/)
 
-# 進め方
+# DBの構築
+`./docker`へ移動し、以下コマンドを実行する。
+```docker-compose up -d
 
-| ステップ | 概要 | ブランチ |
-| ------------- | ------------- | ------------- |
-| 0  | 環境構築  | step-0 |
-| 1  | バックエンド（NestJS・Prisma）の構築  | step-1 |
 
