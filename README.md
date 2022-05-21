@@ -8,6 +8,7 @@
 
 # DBの構築
 `./docker`へ移動し、以下コマンドを実行する。
-```docker-compose up -d
-
+```
+docker-compose up -d
+```
 
