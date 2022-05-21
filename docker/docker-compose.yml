@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  izanagi-db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: izanagi_db
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: izanagi_db
+      TZ: "Asia/Tokyo"
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./db-scripts:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres:
