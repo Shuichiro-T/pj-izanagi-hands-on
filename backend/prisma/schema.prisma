@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,61 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model calendar {
+  year_month    String          @db.Char(6)
+  day           String          @db.Char(6)
+  workday       Boolean         @default(true)
+  saturday      Boolean         @default(false)
+  holiday       Boolean         @default(false)
+  daily_reports daily_reports[]
+
+  @@id([year_month, day])
+}
+
+model daily_itemized_reports {
+  year_month     String        @db.Char(6)
+  day            String        @db.Char(6)
+  employees_id   Int
+  operation_id   Int
+  operation_time DateTime?     @db.Time(6)
+  operation      operation     @relation(fields: [operation_id], references: [operation_id], onDelete: NoAction, onUpdate: NoAction)
+  daily_reports  daily_reports @relation(fields: [year_month, day, employees_id], references: [year_month, day, employees_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([year_month, day, employees_id, operation_id])
+}
+
+model daily_reports {
+  year_month             String                   @db.Char(6)
+  day                    String                   @db.Char(6)
+  employees_id           Int
+  start_time             DateTime?                @db.Timetz(6)
+  end_time               DateTime?                @db.Timetz(6)
+  work_time              DateTime?                @db.Timetz(6)
+  employees              employees                @relation(fields: [employees_id], references: [employees_id], onDelete: NoAction, onUpdate: NoAction)
+  calendar               calendar                 @relation(fields: [year_month, day], references: [year_month, day], onDelete: NoAction, onUpdate: NoAction)
+  daily_itemized_reports daily_itemized_reports[]
+
+  @@id([year_month, day, employees_id])
+}
+
+model department {
+  department_id   Int         @id
+  department_name String      @db.VarChar(50)
+  employees       employees[]
+}
+
+model employees {
+  employees_id   Int             @id
+  employees_name String          @db.VarChar(30)
+  department_id  Int
+  department     department      @relation(fields: [department_id], references: [department_id], onDelete: NoAction, onUpdate: NoAction)
+  daily_reports  daily_reports[]
+}
+
+model operation {
+  operation_id           Int                      @id
+  operation_name         String                   @db.VarChar(50)
+  daily_itemized_reports daily_itemized_reports[]
 }

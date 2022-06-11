@@ -69,3 +69,25 @@ yarn prisma init
 | ----------- | --------- |
 |  .env  |  環境変数を定義するファイル  |
 |  prisma/schema.prisma  |  Prismaの定義を設定するファイル  |
+
+
+# DB接続定義の編集と接続
+
+`.env`ファイルを以下のように編集し、構築したDBへ接続できるようにする。DB構築を別の方法で実施した場合は、適宜定期を修正する。
+
+```shell:.env
+DATABASE_URL="postgresql://izanagi_db:password@localhost:5432/izanagi_db"
+```
+
+## DBに作成したテーブルからテーブル定義を取得する
+
+以下のコマンドを実行し、PrismaとDBの接続、DBに存在するテーブルからPrismaのテーブル定義を取得する。
+
+```
+yarn prisma db pull
+```
+
+
+## 更新されたファイル
+
+`prisma/schema.prisma`がDBのテーブル定義に基づき更新されています。
