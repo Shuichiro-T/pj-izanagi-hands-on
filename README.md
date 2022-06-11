@@ -1,5 +1,4 @@
 # 概要
-<<<<<<< HEAD
 バックエンド構築のステップです。
 
 # ここで構築する内容
@@ -109,9 +108,6 @@ yarn prisma generate
 
 Prisma ClientはPrismaが`schema.prisma`を元に自動作成したテーブルへアクセスするためのAPIです。
 
-=======
-環境構築のステップです。
->>>>>>> step-0
 
 # GraphQL用パッケージのインストール
 
