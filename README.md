@@ -91,3 +91,30 @@ yarn prisma db pull
 ## 更新されたファイル
 
 `prisma/schema.prisma`がDBのテーブル定義に基づき更新されています。
+
+# Prisma ClientのインストールとClientの作成
+
+以下のコマンドを実行し、Prisma Clientのインストールを行う。
+
+```
+yarn add @prisma/client
+```
+
+インストール後、Prisma Clientを以下コマンドを実行して作成する。
+
+```
+yarn prisma generate
+```
+
+Prisma ClientはPrismaが`schema.prisma`を元に自動作成したテーブルへアクセスするためのAPIです。
+
+
+# GraphQL用パッケージのインストール
+
+以下のコマンドを実行して、GraphQL用パッケージのインストールを行う。
+```
+yarn add @nestjs/graphql @nestjs/apollo graphql apollo-server-express
+```
+
+GraphQLはクエリ言語で、バックエンドとフロントエンドを連携させるプロトコルとして使用しています。
+GraphQLを用いると、呼び出したいバックエンドの機能が返す型やパラメータの型と構造を連携でき、より型安全な開発が行えるようになります。
