@@ -43,3 +43,29 @@ yarn run start
 |  main.ts  |  NestJSを起動するためのファイル。起動時のポート番号等の設定をする  |
 
 各役割は、こちらの[サイト](https://zenn.dev/morinokami/articles/nestjs-overview)をご参照ください。
+
+# Prismaのインストール
+
+以下コマンドを実行する。NestJSプロジェクトからPrismaが使えるようになる。
+```
+yarn add prisma --save-dev
+```
+
+# PrismaをDBへ接続してソースを生成する
+
+PrismaはNode.jsとTypeScriptのためのORMツールです。
+
+以下コマンドを実行して初期設定ファイルを生成します。
+```
+yarn prisma init
+```
+
+## 生成されたもの
+
+`./backend`フォルダを基準として、ファイルが2つ作成されている。作成されたファイルの役割は以下の通り。
+
+
+|  ファイル名  |  役割  |
+| ----------- | --------- |
+|  .env  |  環境変数を定義するファイル  |
+|  prisma/schema.prisma  |  Prismaの定義を設定するファイル  |
