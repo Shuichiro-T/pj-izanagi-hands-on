@@ -1,0 +1,270 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type calendar {
+  year_month: String!
+  day: String!
+  workday: Boolean!
+  saturday: Boolean!
+  holiday: Boolean!
+  daily_reports: [daily_reports!]
+  _count: CalendarCount!
+}
+
+type daily_itemized_reports {
+  year_month: String!
+  day: String!
+  employees_id: Int!
+  operation_id: Int!
+  operation_time: DateTime
+  operation: operation!
+  daily_reports: daily_reports!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type daily_reports {
+  year_month: String!
+  day: String!
+  employees_id: Int!
+  start_time: DateTime
+  end_time: DateTime
+  work_time: DateTime
+  employees: employees!
+  calendar: calendar!
+  daily_itemized_reports: [daily_itemized_reports!]
+  _count: Daily_reportsCount!
+}
+
+type department {
+  department_id: ID!
+  department_name: String!
+  employees: [employees!]
+  _count: DepartmentCount!
+}
+
+type employees {
+  employees_id: ID!
+  employees_name: String!
+  department_id: Int!
+  department: department!
+  daily_reports: [daily_reports!]
+  _count: EmployeesCount!
+}
+
+type operation {
+  operation_id: ID!
+  operation_name: String!
+  daily_itemized_reports: [daily_itemized_reports!]
+  _count: OperationCount!
+}
+
+type CalendarCountAggregate {
+  year_month: Int!
+  day: Int!
+  workday: Int!
+  saturday: Int!
+  holiday: Int!
+  _all: Int!
+}
+
+type CalendarCount {
+  daily_reports: Int!
+}
+
+type CalendarMaxAggregate {
+  year_month: String
+  day: String
+  workday: Boolean
+  saturday: Boolean
+  holiday: Boolean
+}
+
+type CalendarMinAggregate {
+  year_month: String
+  day: String
+  workday: Boolean
+  saturday: Boolean
+  holiday: Boolean
+}
+
+type Daily_itemized_reportsAvgAggregate {
+  employees_id: Float
+  operation_id: Float
+}
+
+type Daily_itemized_reportsCountAggregate {
+  year_month: Int!
+  day: Int!
+  employees_id: Int!
+  operation_id: Int!
+  operation_time: Int!
+  _all: Int!
+}
+
+type Daily_itemized_reportsMaxAggregate {
+  year_month: String
+  day: String
+  employees_id: Int
+  operation_id: Int
+  operation_time: DateTime
+}
+
+type Daily_itemized_reportsMinAggregate {
+  year_month: String
+  day: String
+  employees_id: Int
+  operation_id: Int
+  operation_time: DateTime
+}
+
+type Daily_itemized_reportsSumAggregate {
+  employees_id: Int
+  operation_id: Int
+}
+
+type Daily_reportsAvgAggregate {
+  employees_id: Float
+}
+
+type Daily_reportsCountAggregate {
+  year_month: Int!
+  day: Int!
+  employees_id: Int!
+  start_time: Int!
+  end_time: Int!
+  work_time: Int!
+  _all: Int!
+}
+
+type Daily_reportsCount {
+  daily_itemized_reports: Int!
+}
+
+type Daily_reportsMaxAggregate {
+  year_month: String
+  day: String
+  employees_id: Int
+  start_time: DateTime
+  end_time: DateTime
+  work_time: DateTime
+}
+
+type Daily_reportsMinAggregate {
+  year_month: String
+  day: String
+  employees_id: Int
+  start_time: DateTime
+  end_time: DateTime
+  work_time: DateTime
+}
+
+type Daily_reportsSumAggregate {
+  employees_id: Int
+}
+
+type DepartmentAvgAggregate {
+  department_id: Float
+}
+
+type DepartmentCountAggregate {
+  department_id: Int!
+  department_name: Int!
+  _all: Int!
+}
+
+type DepartmentCount {
+  employees: Int!
+}
+
+type DepartmentMaxAggregate {
+  department_id: Int
+  department_name: String
+}
+
+type DepartmentMinAggregate {
+  department_id: Int
+  department_name: String
+}
+
+type DepartmentSumAggregate {
+  department_id: Int
+}
+
+type EmployeesAvgAggregate {
+  employees_id: Float
+  department_id: Float
+}
+
+type EmployeesCountAggregate {
+  employees_id: Int!
+  employees_name: Int!
+  department_id: Int!
+  _all: Int!
+}
+
+type EmployeesCount {
+  daily_reports: Int!
+}
+
+type EmployeesMaxAggregate {
+  employees_id: Int
+  employees_name: String
+  department_id: Int
+}
+
+type EmployeesMinAggregate {
+  employees_id: Int
+  employees_name: String
+  department_id: Int
+}
+
+type EmployeesSumAggregate {
+  employees_id: Int
+  department_id: Int
+}
+
+type OperationAvgAggregate {
+  operation_id: Float
+}
+
+type OperationCountAggregate {
+  operation_id: Int!
+  operation_name: Int!
+  _all: Int!
+}
+
+type OperationCount {
+  daily_itemized_reports: Int!
+}
+
+type OperationMaxAggregate {
+  operation_id: Int
+  operation_name: String
+}
+
+type OperationMinAggregate {
+  operation_id: Int
+  operation_name: String
+}
+
+type OperationSumAggregate {
+  operation_id: Int
+}
+
+type Query {
+  Calendar(where: calendarWhereUniqueInput!): calendar
+}
+
+input calendarWhereUniqueInput {
+  year_month_day: calendarYear_monthDayCompoundUniqueInput
+}
+
+input calendarYear_monthDayCompoundUniqueInput {
+  year_month: String!
+  day: String!
+}
