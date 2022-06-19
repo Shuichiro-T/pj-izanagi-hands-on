@@ -258,6 +258,23 @@ type OperationSumAggregate {
 
 type Query {
   Calendar(where: calendarWhereUniqueInput!): calendar
+  CalendarFirst(where: calendarWhereInput, orderBy: [calendarOrderByWithRelationInput!], cursor: calendarWhereUniqueInput, take: Int, skip: Int, distinct: [CalendarScalarFieldEnum!]): calendar
+  CalendarList(where: calendarWhereInput, orderBy: [calendarOrderByWithRelationInput!], cursor: calendarWhereUniqueInput, take: Int, skip: Int, distinct: [CalendarScalarFieldEnum!]): [calendar!]!
+  DailyItemizedReports(where: daily_itemized_reportsWhereUniqueInput!): daily_itemized_reports
+  DailyItemizedReportsFirst(where: daily_itemized_reportsWhereInput, orderBy: [daily_itemized_reportsOrderByWithRelationInput!], cursor: daily_itemized_reportsWhereUniqueInput, take: Int, skip: Int, distinct: [Daily_itemized_reportsScalarFieldEnum!]): daily_itemized_reports
+  DailyItemizedReportsList(where: daily_itemized_reportsWhereInput, orderBy: [daily_itemized_reportsOrderByWithRelationInput!], cursor: daily_itemized_reportsWhereUniqueInput, take: Int, skip: Int, distinct: [Daily_itemized_reportsScalarFieldEnum!]): [daily_itemized_reports!]!
+  DailyReports(where: daily_reportsWhereUniqueInput!): daily_reports
+  DailyReportsFirst(where: daily_reportsWhereInput, orderBy: [daily_reportsOrderByWithRelationInput!], cursor: daily_reportsWhereUniqueInput, take: Int, skip: Int, distinct: [Daily_reportsScalarFieldEnum!]): daily_reports
+  DailyReportsList(where: daily_reportsWhereInput, orderBy: [daily_reportsOrderByWithRelationInput!], cursor: daily_reportsWhereUniqueInput, take: Int, skip: Int, distinct: [Daily_reportsScalarFieldEnum!]): [daily_reports!]!
+  Department(where: departmentWhereUniqueInput!): department
+  DepartmentFirst(where: departmentWhereInput, orderBy: [departmentOrderByWithRelationInput!], cursor: departmentWhereUniqueInput, take: Int, skip: Int, distinct: [DepartmentScalarFieldEnum!]): department
+  DepartmentList(where: departmentWhereInput, orderBy: [departmentOrderByWithRelationInput!], cursor: departmentWhereUniqueInput, take: Int, skip: Int, distinct: [DepartmentScalarFieldEnum!]): [department!]!
+  Employees(where: employeesWhereUniqueInput!): employees
+  EmployeesFirst(where: employeesWhereInput, orderBy: [employeesOrderByWithRelationInput!], cursor: employeesWhereUniqueInput, take: Int, skip: Int, distinct: [EmployeesScalarFieldEnum!]): employees
+  EmployeesList(where: employeesWhereInput, orderBy: [employeesOrderByWithRelationInput!], cursor: employeesWhereUniqueInput, take: Int, skip: Int, distinct: [EmployeesScalarFieldEnum!]): [employees!]!
+  Operation(where: operationWhereUniqueInput!): operation
+  OperationFirst(where: operationWhereInput, orderBy: [operationOrderByWithRelationInput!], cursor: operationWhereUniqueInput, take: Int, skip: Int, distinct: [OperationScalarFieldEnum!]): operation
+  OperationList(where: operationWhereInput, orderBy: [operationOrderByWithRelationInput!], cursor: operationWhereUniqueInput, take: Int, skip: Int, distinct: [OperationScalarFieldEnum!]): [operation!]!
 }
 
 input calendarWhereUniqueInput {
@@ -267,4 +284,1035 @@ input calendarWhereUniqueInput {
 input calendarYear_monthDayCompoundUniqueInput {
   year_month: String!
   day: String!
+}
+
+input calendarWhereInput {
+  AND: [calendarWhereInput!]
+  OR: [calendarWhereInput!]
+  NOT: [calendarWhereInput!]
+  year_month: StringFilter
+  day: StringFilter
+  workday: BoolFilter
+  saturday: BoolFilter
+  holiday: BoolFilter
+  daily_reports: Daily_reportsListRelationFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input Daily_reportsListRelationFilter {
+  every: daily_reportsWhereInput
+  some: daily_reportsWhereInput
+  none: daily_reportsWhereInput
+}
+
+input daily_reportsWhereInput {
+  AND: [daily_reportsWhereInput!]
+  OR: [daily_reportsWhereInput!]
+  NOT: [daily_reportsWhereInput!]
+  year_month: StringFilter
+  day: StringFilter
+  employees_id: IntFilter
+  start_time: DateTimeNullableFilter
+  end_time: DateTimeNullableFilter
+  work_time: DateTimeNullableFilter
+  employees: EmployeesRelationFilter
+  calendar: CalendarRelationFilter
+  daily_itemized_reports: Daily_itemized_reportsListRelationFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input NestedIntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input DateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableFilter
+}
+
+input NestedDateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableFilter
+}
+
+input EmployeesRelationFilter {
+  is: employeesWhereInput
+  isNot: employeesWhereInput
+}
+
+input employeesWhereInput {
+  AND: [employeesWhereInput!]
+  OR: [employeesWhereInput!]
+  NOT: [employeesWhereInput!]
+  employees_id: IntFilter
+  employees_name: StringFilter
+  department_id: IntFilter
+  department: DepartmentRelationFilter
+  daily_reports: Daily_reportsListRelationFilter
+}
+
+input DepartmentRelationFilter {
+  is: departmentWhereInput
+  isNot: departmentWhereInput
+}
+
+input departmentWhereInput {
+  AND: [departmentWhereInput!]
+  OR: [departmentWhereInput!]
+  NOT: [departmentWhereInput!]
+  department_id: IntFilter
+  department_name: StringFilter
+  employees: EmployeesListRelationFilter
+}
+
+input EmployeesListRelationFilter {
+  every: employeesWhereInput
+  some: employeesWhereInput
+  none: employeesWhereInput
+}
+
+input CalendarRelationFilter {
+  is: calendarWhereInput
+  isNot: calendarWhereInput
+}
+
+input Daily_itemized_reportsListRelationFilter {
+  every: daily_itemized_reportsWhereInput
+  some: daily_itemized_reportsWhereInput
+  none: daily_itemized_reportsWhereInput
+}
+
+input daily_itemized_reportsWhereInput {
+  AND: [daily_itemized_reportsWhereInput!]
+  OR: [daily_itemized_reportsWhereInput!]
+  NOT: [daily_itemized_reportsWhereInput!]
+  year_month: StringFilter
+  day: StringFilter
+  employees_id: IntFilter
+  operation_id: IntFilter
+  operation_time: DateTimeNullableFilter
+  operation: OperationRelationFilter
+  daily_reports: Daily_reportsRelationFilter
+}
+
+input OperationRelationFilter {
+  is: operationWhereInput
+  isNot: operationWhereInput
+}
+
+input operationWhereInput {
+  AND: [operationWhereInput!]
+  OR: [operationWhereInput!]
+  NOT: [operationWhereInput!]
+  operation_id: IntFilter
+  operation_name: StringFilter
+  daily_itemized_reports: Daily_itemized_reportsListRelationFilter
+}
+
+input Daily_reportsRelationFilter {
+  is: daily_reportsWhereInput
+  isNot: daily_reportsWhereInput
+}
+
+input calendarOrderByWithRelationInput {
+  year_month: SortOrder
+  day: SortOrder
+  workday: SortOrder
+  saturday: SortOrder
+  holiday: SortOrder
+  daily_reports: daily_reportsOrderByRelationAggregateInput
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input daily_reportsOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+enum CalendarScalarFieldEnum {
+  year_month
+  day
+  workday
+  saturday
+  holiday
+}
+
+input daily_itemized_reportsWhereUniqueInput {
+  year_month_day_employees_id_operation_id: daily_itemized_reportsYear_monthDayEmployees_idOperation_idCompoundUniqueInput
+}
+
+input daily_itemized_reportsYear_monthDayEmployees_idOperation_idCompoundUniqueInput {
+  year_month: String!
+  day: String!
+  employees_id: Int!
+  operation_id: Int!
+}
+
+input daily_itemized_reportsOrderByWithRelationInput {
+  year_month: SortOrder
+  day: SortOrder
+  employees_id: SortOrder
+  operation_id: SortOrder
+  operation_time: SortOrder
+  operation: operationOrderByWithRelationInput
+  daily_reports: daily_reportsOrderByWithRelationInput
+}
+
+input operationOrderByWithRelationInput {
+  operation_id: SortOrder
+  operation_name: SortOrder
+  daily_itemized_reports: daily_itemized_reportsOrderByRelationAggregateInput
+}
+
+input daily_itemized_reportsOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input daily_reportsOrderByWithRelationInput {
+  year_month: SortOrder
+  day: SortOrder
+  employees_id: SortOrder
+  start_time: SortOrder
+  end_time: SortOrder
+  work_time: SortOrder
+  employees: employeesOrderByWithRelationInput
+  calendar: calendarOrderByWithRelationInput
+  daily_itemized_reports: daily_itemized_reportsOrderByRelationAggregateInput
+}
+
+input employeesOrderByWithRelationInput {
+  employees_id: SortOrder
+  employees_name: SortOrder
+  department_id: SortOrder
+  department: departmentOrderByWithRelationInput
+  daily_reports: daily_reportsOrderByRelationAggregateInput
+}
+
+input departmentOrderByWithRelationInput {
+  department_id: SortOrder
+  department_name: SortOrder
+  employees: employeesOrderByRelationAggregateInput
+}
+
+input employeesOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+enum Daily_itemized_reportsScalarFieldEnum {
+  year_month
+  day
+  employees_id
+  operation_id
+  operation_time
+}
+
+input daily_reportsWhereUniqueInput {
+  year_month_day_employees_id: daily_reportsYear_monthDayEmployees_idCompoundUniqueInput
+}
+
+input daily_reportsYear_monthDayEmployees_idCompoundUniqueInput {
+  year_month: String!
+  day: String!
+  employees_id: Int!
+}
+
+enum Daily_reportsScalarFieldEnum {
+  year_month
+  day
+  employees_id
+  start_time
+  end_time
+  work_time
+}
+
+input departmentWhereUniqueInput {
+  department_id: Int
+}
+
+enum DepartmentScalarFieldEnum {
+  department_id
+  department_name
+}
+
+input employeesWhereUniqueInput {
+  employees_id: Int
+}
+
+enum EmployeesScalarFieldEnum {
+  employees_id
+  employees_name
+  department_id
+}
+
+input operationWhereUniqueInput {
+  operation_id: Int
+}
+
+enum OperationScalarFieldEnum {
+  operation_id
+  operation_name
+}
+
+type Mutation {
+  CreateCalendar(data: calendarCreateInput!): calendar!
+  UpdateCalendar(data: calendarUpdateInput!, where: calendarWhereUniqueInput!): calendar!
+  DeleteCalendar(where: calendarWhereUniqueInput!): calendar!
+  CreateDailyItemizedReports(data: daily_itemized_reportsCreateInput!): daily_itemized_reports!
+  UpdateDailyItemizedReports(data: daily_itemized_reportsUpdateInput!, where: daily_itemized_reportsWhereUniqueInput!): daily_itemized_reports!
+  DeleteDailyItemizedReports(where: daily_itemized_reportsWhereUniqueInput!): daily_itemized_reports!
+  CreateDailyReports(data: daily_reportsCreateInput!): daily_reports!
+  UpdateDailyReports(data: daily_reportsUpdateInput!, where: daily_reportsWhereUniqueInput!): daily_reports!
+  DeleteDailyReports(where: daily_reportsWhereUniqueInput!): daily_reports!
+  CreateDepartment(data: departmentCreateInput!): department!
+  UpdateDepartment(data: departmentUpdateInput!, where: departmentWhereUniqueInput!): department!
+  DeleteDepartment(where: departmentWhereUniqueInput!): department!
+  CreateEmployees(data: employeesCreateInput!): employees!
+  UpdateEmployees(data: employeesUpdateInput!, where: employeesWhereUniqueInput!): employees!
+  DeleteEmployees(where: employeesWhereUniqueInput!): employees!
+  CreateOperation(data: operationCreateInput!): operation!
+  UpdateOperation(data: operationUpdateInput!, where: operationWhereUniqueInput!): operation!
+  DeleteOperation(where: operationWhereUniqueInput!): operation!
+}
+
+input calendarCreateInput {
+  year_month: String!
+  day: String!
+  workday: Boolean
+  saturday: Boolean
+  holiday: Boolean
+  daily_reports: daily_reportsCreateNestedManyWithoutCalendarInput
+}
+
+input daily_reportsCreateNestedManyWithoutCalendarInput {
+  create: [daily_reportsCreateWithoutCalendarInput!]
+  connectOrCreate: [daily_reportsCreateOrConnectWithoutCalendarInput!]
+  createMany: daily_reportsCreateManyCalendarInputEnvelope
+  connect: [daily_reportsWhereUniqueInput!]
+}
+
+input daily_reportsCreateWithoutCalendarInput {
+  start_time: DateTime
+  end_time: DateTime
+  work_time: DateTime
+  employees: employeesCreateNestedOneWithoutDaily_reportsInput!
+  daily_itemized_reports: daily_itemized_reportsCreateNestedManyWithoutDaily_reportsInput
+}
+
+input employeesCreateNestedOneWithoutDaily_reportsInput {
+  create: employeesCreateWithoutDaily_reportsInput
+  connectOrCreate: employeesCreateOrConnectWithoutDaily_reportsInput
+  connect: employeesWhereUniqueInput
+}
+
+input employeesCreateWithoutDaily_reportsInput {
+  employees_id: Int!
+  employees_name: String!
+  department: departmentCreateNestedOneWithoutEmployeesInput!
+}
+
+input departmentCreateNestedOneWithoutEmployeesInput {
+  create: departmentCreateWithoutEmployeesInput
+  connectOrCreate: departmentCreateOrConnectWithoutEmployeesInput
+  connect: departmentWhereUniqueInput
+}
+
+input departmentCreateWithoutEmployeesInput {
+  department_id: Int!
+  department_name: String!
+}
+
+input departmentCreateOrConnectWithoutEmployeesInput {
+  where: departmentWhereUniqueInput!
+  create: departmentCreateWithoutEmployeesInput!
+}
+
+input employeesCreateOrConnectWithoutDaily_reportsInput {
+  where: employeesWhereUniqueInput!
+  create: employeesCreateWithoutDaily_reportsInput!
+}
+
+input daily_itemized_reportsCreateNestedManyWithoutDaily_reportsInput {
+  create: [daily_itemized_reportsCreateWithoutDaily_reportsInput!]
+  connectOrCreate: [daily_itemized_reportsCreateOrConnectWithoutDaily_reportsInput!]
+  createMany: daily_itemized_reportsCreateManyDaily_reportsInputEnvelope
+  connect: [daily_itemized_reportsWhereUniqueInput!]
+}
+
+input daily_itemized_reportsCreateWithoutDaily_reportsInput {
+  operation_time: DateTime
+  operation: operationCreateNestedOneWithoutDaily_itemized_reportsInput!
+}
+
+input operationCreateNestedOneWithoutDaily_itemized_reportsInput {
+  create: operationCreateWithoutDaily_itemized_reportsInput
+  connectOrCreate: operationCreateOrConnectWithoutDaily_itemized_reportsInput
+  connect: operationWhereUniqueInput
+}
+
+input operationCreateWithoutDaily_itemized_reportsInput {
+  operation_id: Int!
+  operation_name: String!
+}
+
+input operationCreateOrConnectWithoutDaily_itemized_reportsInput {
+  where: operationWhereUniqueInput!
+  create: operationCreateWithoutDaily_itemized_reportsInput!
+}
+
+input daily_itemized_reportsCreateOrConnectWithoutDaily_reportsInput {
+  where: daily_itemized_reportsWhereUniqueInput!
+  create: daily_itemized_reportsCreateWithoutDaily_reportsInput!
+}
+
+input daily_itemized_reportsCreateManyDaily_reportsInputEnvelope {
+  data: [daily_itemized_reportsCreateManyDaily_reportsInput!]!
+  skipDuplicates: Boolean
+}
+
+input daily_itemized_reportsCreateManyDaily_reportsInput {
+  operation_id: Int!
+  operation_time: DateTime
+}
+
+input daily_reportsCreateOrConnectWithoutCalendarInput {
+  where: daily_reportsWhereUniqueInput!
+  create: daily_reportsCreateWithoutCalendarInput!
+}
+
+input daily_reportsCreateManyCalendarInputEnvelope {
+  data: [daily_reportsCreateManyCalendarInput!]!
+  skipDuplicates: Boolean
+}
+
+input daily_reportsCreateManyCalendarInput {
+  employees_id: Int!
+  start_time: DateTime
+  end_time: DateTime
+  work_time: DateTime
+}
+
+input calendarUpdateInput {
+  year_month: StringFieldUpdateOperationsInput
+  day: StringFieldUpdateOperationsInput
+  workday: BoolFieldUpdateOperationsInput
+  saturday: BoolFieldUpdateOperationsInput
+  holiday: BoolFieldUpdateOperationsInput
+  daily_reports: daily_reportsUpdateManyWithoutCalendarInput
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+input BoolFieldUpdateOperationsInput {
+  set: Boolean
+}
+
+input daily_reportsUpdateManyWithoutCalendarInput {
+  create: [daily_reportsCreateWithoutCalendarInput!]
+  connectOrCreate: [daily_reportsCreateOrConnectWithoutCalendarInput!]
+  upsert: [daily_reportsUpsertWithWhereUniqueWithoutCalendarInput!]
+  createMany: daily_reportsCreateManyCalendarInputEnvelope
+  set: [daily_reportsWhereUniqueInput!]
+  disconnect: [daily_reportsWhereUniqueInput!]
+  delete: [daily_reportsWhereUniqueInput!]
+  connect: [daily_reportsWhereUniqueInput!]
+  update: [daily_reportsUpdateWithWhereUniqueWithoutCalendarInput!]
+  updateMany: [daily_reportsUpdateManyWithWhereWithoutCalendarInput!]
+  deleteMany: [daily_reportsScalarWhereInput!]
+}
+
+input daily_reportsUpsertWithWhereUniqueWithoutCalendarInput {
+  where: daily_reportsWhereUniqueInput!
+  update: daily_reportsUpdateWithoutCalendarInput!
+  create: daily_reportsCreateWithoutCalendarInput!
+}
+
+input daily_reportsUpdateWithoutCalendarInput {
+  start_time: NullableDateTimeFieldUpdateOperationsInput
+  end_time: NullableDateTimeFieldUpdateOperationsInput
+  work_time: NullableDateTimeFieldUpdateOperationsInput
+  employees: employeesUpdateOneRequiredWithoutDaily_reportsInput
+  daily_itemized_reports: daily_itemized_reportsUpdateManyWithoutDaily_reportsInput
+}
+
+input NullableDateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input employeesUpdateOneRequiredWithoutDaily_reportsInput {
+  create: employeesCreateWithoutDaily_reportsInput
+  connectOrCreate: employeesCreateOrConnectWithoutDaily_reportsInput
+  upsert: employeesUpsertWithoutDaily_reportsInput
+  connect: employeesWhereUniqueInput
+  update: employeesUpdateWithoutDaily_reportsInput
+}
+
+input employeesUpsertWithoutDaily_reportsInput {
+  update: employeesUpdateWithoutDaily_reportsInput!
+  create: employeesCreateWithoutDaily_reportsInput!
+}
+
+input employeesUpdateWithoutDaily_reportsInput {
+  employees_id: IntFieldUpdateOperationsInput
+  employees_name: StringFieldUpdateOperationsInput
+  department: departmentUpdateOneRequiredWithoutEmployeesInput
+}
+
+input IntFieldUpdateOperationsInput {
+  set: Int
+  increment: Int
+  decrement: Int
+  multiply: Int
+  divide: Int
+}
+
+input departmentUpdateOneRequiredWithoutEmployeesInput {
+  create: departmentCreateWithoutEmployeesInput
+  connectOrCreate: departmentCreateOrConnectWithoutEmployeesInput
+  upsert: departmentUpsertWithoutEmployeesInput
+  connect: departmentWhereUniqueInput
+  update: departmentUpdateWithoutEmployeesInput
+}
+
+input departmentUpsertWithoutEmployeesInput {
+  update: departmentUpdateWithoutEmployeesInput!
+  create: departmentCreateWithoutEmployeesInput!
+}
+
+input departmentUpdateWithoutEmployeesInput {
+  department_id: IntFieldUpdateOperationsInput
+  department_name: StringFieldUpdateOperationsInput
+}
+
+input daily_itemized_reportsUpdateManyWithoutDaily_reportsInput {
+  create: [daily_itemized_reportsCreateWithoutDaily_reportsInput!]
+  connectOrCreate: [daily_itemized_reportsCreateOrConnectWithoutDaily_reportsInput!]
+  upsert: [daily_itemized_reportsUpsertWithWhereUniqueWithoutDaily_reportsInput!]
+  createMany: daily_itemized_reportsCreateManyDaily_reportsInputEnvelope
+  set: [daily_itemized_reportsWhereUniqueInput!]
+  disconnect: [daily_itemized_reportsWhereUniqueInput!]
+  delete: [daily_itemized_reportsWhereUniqueInput!]
+  connect: [daily_itemized_reportsWhereUniqueInput!]
+  update: [daily_itemized_reportsUpdateWithWhereUniqueWithoutDaily_reportsInput!]
+  updateMany: [daily_itemized_reportsUpdateManyWithWhereWithoutDaily_reportsInput!]
+  deleteMany: [daily_itemized_reportsScalarWhereInput!]
+}
+
+input daily_itemized_reportsUpsertWithWhereUniqueWithoutDaily_reportsInput {
+  where: daily_itemized_reportsWhereUniqueInput!
+  update: daily_itemized_reportsUpdateWithoutDaily_reportsInput!
+  create: daily_itemized_reportsCreateWithoutDaily_reportsInput!
+}
+
+input daily_itemized_reportsUpdateWithoutDaily_reportsInput {
+  operation_time: NullableDateTimeFieldUpdateOperationsInput
+  operation: operationUpdateOneRequiredWithoutDaily_itemized_reportsInput
+}
+
+input operationUpdateOneRequiredWithoutDaily_itemized_reportsInput {
+  create: operationCreateWithoutDaily_itemized_reportsInput
+  connectOrCreate: operationCreateOrConnectWithoutDaily_itemized_reportsInput
+  upsert: operationUpsertWithoutDaily_itemized_reportsInput
+  connect: operationWhereUniqueInput
+  update: operationUpdateWithoutDaily_itemized_reportsInput
+}
+
+input operationUpsertWithoutDaily_itemized_reportsInput {
+  update: operationUpdateWithoutDaily_itemized_reportsInput!
+  create: operationCreateWithoutDaily_itemized_reportsInput!
+}
+
+input operationUpdateWithoutDaily_itemized_reportsInput {
+  operation_id: IntFieldUpdateOperationsInput
+  operation_name: StringFieldUpdateOperationsInput
+}
+
+input daily_itemized_reportsUpdateWithWhereUniqueWithoutDaily_reportsInput {
+  where: daily_itemized_reportsWhereUniqueInput!
+  data: daily_itemized_reportsUpdateWithoutDaily_reportsInput!
+}
+
+input daily_itemized_reportsUpdateManyWithWhereWithoutDaily_reportsInput {
+  where: daily_itemized_reportsScalarWhereInput!
+  data: daily_itemized_reportsUpdateManyMutationInput!
+}
+
+input daily_itemized_reportsScalarWhereInput {
+  AND: [daily_itemized_reportsScalarWhereInput!]
+  OR: [daily_itemized_reportsScalarWhereInput!]
+  NOT: [daily_itemized_reportsScalarWhereInput!]
+  year_month: StringFilter
+  day: StringFilter
+  employees_id: IntFilter
+  operation_id: IntFilter
+  operation_time: DateTimeNullableFilter
+}
+
+input daily_itemized_reportsUpdateManyMutationInput {
+  operation_time: NullableDateTimeFieldUpdateOperationsInput
+}
+
+input daily_reportsUpdateWithWhereUniqueWithoutCalendarInput {
+  where: daily_reportsWhereUniqueInput!
+  data: daily_reportsUpdateWithoutCalendarInput!
+}
+
+input daily_reportsUpdateManyWithWhereWithoutCalendarInput {
+  where: daily_reportsScalarWhereInput!
+  data: daily_reportsUpdateManyMutationInput!
+}
+
+input daily_reportsScalarWhereInput {
+  AND: [daily_reportsScalarWhereInput!]
+  OR: [daily_reportsScalarWhereInput!]
+  NOT: [daily_reportsScalarWhereInput!]
+  year_month: StringFilter
+  day: StringFilter
+  employees_id: IntFilter
+  start_time: DateTimeNullableFilter
+  end_time: DateTimeNullableFilter
+  work_time: DateTimeNullableFilter
+}
+
+input daily_reportsUpdateManyMutationInput {
+  start_time: NullableDateTimeFieldUpdateOperationsInput
+  end_time: NullableDateTimeFieldUpdateOperationsInput
+  work_time: NullableDateTimeFieldUpdateOperationsInput
+}
+
+input daily_itemized_reportsCreateInput {
+  operation_time: DateTime
+  operation: operationCreateNestedOneWithoutDaily_itemized_reportsInput!
+  daily_reports: daily_reportsCreateNestedOneWithoutDaily_itemized_reportsInput!
+}
+
+input daily_reportsCreateNestedOneWithoutDaily_itemized_reportsInput {
+  create: daily_reportsCreateWithoutDaily_itemized_reportsInput
+  connectOrCreate: daily_reportsCreateOrConnectWithoutDaily_itemized_reportsInput
+  connect: daily_reportsWhereUniqueInput
+}
+
+input daily_reportsCreateWithoutDaily_itemized_reportsInput {
+  start_time: DateTime
+  end_time: DateTime
+  work_time: DateTime
+  employees: employeesCreateNestedOneWithoutDaily_reportsInput!
+  calendar: calendarCreateNestedOneWithoutDaily_reportsInput!
+}
+
+input calendarCreateNestedOneWithoutDaily_reportsInput {
+  create: calendarCreateWithoutDaily_reportsInput
+  connectOrCreate: calendarCreateOrConnectWithoutDaily_reportsInput
+  connect: calendarWhereUniqueInput
+}
+
+input calendarCreateWithoutDaily_reportsInput {
+  year_month: String!
+  day: String!
+  workday: Boolean
+  saturday: Boolean
+  holiday: Boolean
+}
+
+input calendarCreateOrConnectWithoutDaily_reportsInput {
+  where: calendarWhereUniqueInput!
+  create: calendarCreateWithoutDaily_reportsInput!
+}
+
+input daily_reportsCreateOrConnectWithoutDaily_itemized_reportsInput {
+  where: daily_reportsWhereUniqueInput!
+  create: daily_reportsCreateWithoutDaily_itemized_reportsInput!
+}
+
+input daily_itemized_reportsUpdateInput {
+  operation_time: NullableDateTimeFieldUpdateOperationsInput
+  operation: operationUpdateOneRequiredWithoutDaily_itemized_reportsInput
+  daily_reports: daily_reportsUpdateOneRequiredWithoutDaily_itemized_reportsInput
+}
+
+input daily_reportsUpdateOneRequiredWithoutDaily_itemized_reportsInput {
+  create: daily_reportsCreateWithoutDaily_itemized_reportsInput
+  connectOrCreate: daily_reportsCreateOrConnectWithoutDaily_itemized_reportsInput
+  upsert: daily_reportsUpsertWithoutDaily_itemized_reportsInput
+  connect: daily_reportsWhereUniqueInput
+  update: daily_reportsUpdateWithoutDaily_itemized_reportsInput
+}
+
+input daily_reportsUpsertWithoutDaily_itemized_reportsInput {
+  update: daily_reportsUpdateWithoutDaily_itemized_reportsInput!
+  create: daily_reportsCreateWithoutDaily_itemized_reportsInput!
+}
+
+input daily_reportsUpdateWithoutDaily_itemized_reportsInput {
+  start_time: NullableDateTimeFieldUpdateOperationsInput
+  end_time: NullableDateTimeFieldUpdateOperationsInput
+  work_time: NullableDateTimeFieldUpdateOperationsInput
+  employees: employeesUpdateOneRequiredWithoutDaily_reportsInput
+  calendar: calendarUpdateOneRequiredWithoutDaily_reportsInput
+}
+
+input calendarUpdateOneRequiredWithoutDaily_reportsInput {
+  create: calendarCreateWithoutDaily_reportsInput
+  connectOrCreate: calendarCreateOrConnectWithoutDaily_reportsInput
+  upsert: calendarUpsertWithoutDaily_reportsInput
+  connect: calendarWhereUniqueInput
+  update: calendarUpdateWithoutDaily_reportsInput
+}
+
+input calendarUpsertWithoutDaily_reportsInput {
+  update: calendarUpdateWithoutDaily_reportsInput!
+  create: calendarCreateWithoutDaily_reportsInput!
+}
+
+input calendarUpdateWithoutDaily_reportsInput {
+  year_month: StringFieldUpdateOperationsInput
+  day: StringFieldUpdateOperationsInput
+  workday: BoolFieldUpdateOperationsInput
+  saturday: BoolFieldUpdateOperationsInput
+  holiday: BoolFieldUpdateOperationsInput
+}
+
+input daily_reportsCreateInput {
+  start_time: DateTime
+  end_time: DateTime
+  work_time: DateTime
+  employees: employeesCreateNestedOneWithoutDaily_reportsInput!
+  calendar: calendarCreateNestedOneWithoutDaily_reportsInput!
+  daily_itemized_reports: daily_itemized_reportsCreateNestedManyWithoutDaily_reportsInput
+}
+
+input daily_reportsUpdateInput {
+  start_time: NullableDateTimeFieldUpdateOperationsInput
+  end_time: NullableDateTimeFieldUpdateOperationsInput
+  work_time: NullableDateTimeFieldUpdateOperationsInput
+  employees: employeesUpdateOneRequiredWithoutDaily_reportsInput
+  calendar: calendarUpdateOneRequiredWithoutDaily_reportsInput
+  daily_itemized_reports: daily_itemized_reportsUpdateManyWithoutDaily_reportsInput
+}
+
+input departmentCreateInput {
+  department_id: Int!
+  department_name: String!
+  employees: employeesCreateNestedManyWithoutDepartmentInput
+}
+
+input employeesCreateNestedManyWithoutDepartmentInput {
+  create: [employeesCreateWithoutDepartmentInput!]
+  connectOrCreate: [employeesCreateOrConnectWithoutDepartmentInput!]
+  createMany: employeesCreateManyDepartmentInputEnvelope
+  connect: [employeesWhereUniqueInput!]
+}
+
+input employeesCreateWithoutDepartmentInput {
+  employees_id: Int!
+  employees_name: String!
+  daily_reports: daily_reportsCreateNestedManyWithoutEmployeesInput
+}
+
+input daily_reportsCreateNestedManyWithoutEmployeesInput {
+  create: [daily_reportsCreateWithoutEmployeesInput!]
+  connectOrCreate: [daily_reportsCreateOrConnectWithoutEmployeesInput!]
+  createMany: daily_reportsCreateManyEmployeesInputEnvelope
+  connect: [daily_reportsWhereUniqueInput!]
+}
+
+input daily_reportsCreateWithoutEmployeesInput {
+  start_time: DateTime
+  end_time: DateTime
+  work_time: DateTime
+  calendar: calendarCreateNestedOneWithoutDaily_reportsInput!
+  daily_itemized_reports: daily_itemized_reportsCreateNestedManyWithoutDaily_reportsInput
+}
+
+input daily_reportsCreateOrConnectWithoutEmployeesInput {
+  where: daily_reportsWhereUniqueInput!
+  create: daily_reportsCreateWithoutEmployeesInput!
+}
+
+input daily_reportsCreateManyEmployeesInputEnvelope {
+  data: [daily_reportsCreateManyEmployeesInput!]!
+  skipDuplicates: Boolean
+}
+
+input daily_reportsCreateManyEmployeesInput {
+  year_month: String!
+  day: String!
+  start_time: DateTime
+  end_time: DateTime
+  work_time: DateTime
+}
+
+input employeesCreateOrConnectWithoutDepartmentInput {
+  where: employeesWhereUniqueInput!
+  create: employeesCreateWithoutDepartmentInput!
+}
+
+input employeesCreateManyDepartmentInputEnvelope {
+  data: [employeesCreateManyDepartmentInput!]!
+  skipDuplicates: Boolean
+}
+
+input employeesCreateManyDepartmentInput {
+  employees_id: Int!
+  employees_name: String!
+}
+
+input departmentUpdateInput {
+  department_id: IntFieldUpdateOperationsInput
+  department_name: StringFieldUpdateOperationsInput
+  employees: employeesUpdateManyWithoutDepartmentInput
+}
+
+input employeesUpdateManyWithoutDepartmentInput {
+  create: [employeesCreateWithoutDepartmentInput!]
+  connectOrCreate: [employeesCreateOrConnectWithoutDepartmentInput!]
+  upsert: [employeesUpsertWithWhereUniqueWithoutDepartmentInput!]
+  createMany: employeesCreateManyDepartmentInputEnvelope
+  set: [employeesWhereUniqueInput!]
+  disconnect: [employeesWhereUniqueInput!]
+  delete: [employeesWhereUniqueInput!]
+  connect: [employeesWhereUniqueInput!]
+  update: [employeesUpdateWithWhereUniqueWithoutDepartmentInput!]
+  updateMany: [employeesUpdateManyWithWhereWithoutDepartmentInput!]
+  deleteMany: [employeesScalarWhereInput!]
+}
+
+input employeesUpsertWithWhereUniqueWithoutDepartmentInput {
+  where: employeesWhereUniqueInput!
+  update: employeesUpdateWithoutDepartmentInput!
+  create: employeesCreateWithoutDepartmentInput!
+}
+
+input employeesUpdateWithoutDepartmentInput {
+  employees_id: IntFieldUpdateOperationsInput
+  employees_name: StringFieldUpdateOperationsInput
+  daily_reports: daily_reportsUpdateManyWithoutEmployeesInput
+}
+
+input daily_reportsUpdateManyWithoutEmployeesInput {
+  create: [daily_reportsCreateWithoutEmployeesInput!]
+  connectOrCreate: [daily_reportsCreateOrConnectWithoutEmployeesInput!]
+  upsert: [daily_reportsUpsertWithWhereUniqueWithoutEmployeesInput!]
+  createMany: daily_reportsCreateManyEmployeesInputEnvelope
+  set: [daily_reportsWhereUniqueInput!]
+  disconnect: [daily_reportsWhereUniqueInput!]
+  delete: [daily_reportsWhereUniqueInput!]
+  connect: [daily_reportsWhereUniqueInput!]
+  update: [daily_reportsUpdateWithWhereUniqueWithoutEmployeesInput!]
+  updateMany: [daily_reportsUpdateManyWithWhereWithoutEmployeesInput!]
+  deleteMany: [daily_reportsScalarWhereInput!]
+}
+
+input daily_reportsUpsertWithWhereUniqueWithoutEmployeesInput {
+  where: daily_reportsWhereUniqueInput!
+  update: daily_reportsUpdateWithoutEmployeesInput!
+  create: daily_reportsCreateWithoutEmployeesInput!
+}
+
+input daily_reportsUpdateWithoutEmployeesInput {
+  start_time: NullableDateTimeFieldUpdateOperationsInput
+  end_time: NullableDateTimeFieldUpdateOperationsInput
+  work_time: NullableDateTimeFieldUpdateOperationsInput
+  calendar: calendarUpdateOneRequiredWithoutDaily_reportsInput
+  daily_itemized_reports: daily_itemized_reportsUpdateManyWithoutDaily_reportsInput
+}
+
+input daily_reportsUpdateWithWhereUniqueWithoutEmployeesInput {
+  where: daily_reportsWhereUniqueInput!
+  data: daily_reportsUpdateWithoutEmployeesInput!
+}
+
+input daily_reportsUpdateManyWithWhereWithoutEmployeesInput {
+  where: daily_reportsScalarWhereInput!
+  data: daily_reportsUpdateManyMutationInput!
+}
+
+input employeesUpdateWithWhereUniqueWithoutDepartmentInput {
+  where: employeesWhereUniqueInput!
+  data: employeesUpdateWithoutDepartmentInput!
+}
+
+input employeesUpdateManyWithWhereWithoutDepartmentInput {
+  where: employeesScalarWhereInput!
+  data: employeesUpdateManyMutationInput!
+}
+
+input employeesScalarWhereInput {
+  AND: [employeesScalarWhereInput!]
+  OR: [employeesScalarWhereInput!]
+  NOT: [employeesScalarWhereInput!]
+  employees_id: IntFilter
+  employees_name: StringFilter
+  department_id: IntFilter
+}
+
+input employeesUpdateManyMutationInput {
+  employees_id: IntFieldUpdateOperationsInput
+  employees_name: StringFieldUpdateOperationsInput
+}
+
+input employeesCreateInput {
+  employees_id: Int!
+  employees_name: String!
+  department: departmentCreateNestedOneWithoutEmployeesInput!
+  daily_reports: daily_reportsCreateNestedManyWithoutEmployeesInput
+}
+
+input employeesUpdateInput {
+  employees_id: IntFieldUpdateOperationsInput
+  employees_name: StringFieldUpdateOperationsInput
+  department: departmentUpdateOneRequiredWithoutEmployeesInput
+  daily_reports: daily_reportsUpdateManyWithoutEmployeesInput
+}
+
+input operationCreateInput {
+  operation_id: Int!
+  operation_name: String!
+  daily_itemized_reports: daily_itemized_reportsCreateNestedManyWithoutOperationInput
+}
+
+input daily_itemized_reportsCreateNestedManyWithoutOperationInput {
+  create: [daily_itemized_reportsCreateWithoutOperationInput!]
+  connectOrCreate: [daily_itemized_reportsCreateOrConnectWithoutOperationInput!]
+  createMany: daily_itemized_reportsCreateManyOperationInputEnvelope
+  connect: [daily_itemized_reportsWhereUniqueInput!]
+}
+
+input daily_itemized_reportsCreateWithoutOperationInput {
+  operation_time: DateTime
+  daily_reports: daily_reportsCreateNestedOneWithoutDaily_itemized_reportsInput!
+}
+
+input daily_itemized_reportsCreateOrConnectWithoutOperationInput {
+  where: daily_itemized_reportsWhereUniqueInput!
+  create: daily_itemized_reportsCreateWithoutOperationInput!
+}
+
+input daily_itemized_reportsCreateManyOperationInputEnvelope {
+  data: [daily_itemized_reportsCreateManyOperationInput!]!
+  skipDuplicates: Boolean
+}
+
+input daily_itemized_reportsCreateManyOperationInput {
+  year_month: String!
+  day: String!
+  employees_id: Int!
+  operation_time: DateTime
+}
+
+input operationUpdateInput {
+  operation_id: IntFieldUpdateOperationsInput
+  operation_name: StringFieldUpdateOperationsInput
+  daily_itemized_reports: daily_itemized_reportsUpdateManyWithoutOperationInput
+}
+
+input daily_itemized_reportsUpdateManyWithoutOperationInput {
+  create: [daily_itemized_reportsCreateWithoutOperationInput!]
+  connectOrCreate: [daily_itemized_reportsCreateOrConnectWithoutOperationInput!]
+  upsert: [daily_itemized_reportsUpsertWithWhereUniqueWithoutOperationInput!]
+  createMany: daily_itemized_reportsCreateManyOperationInputEnvelope
+  set: [daily_itemized_reportsWhereUniqueInput!]
+  disconnect: [daily_itemized_reportsWhereUniqueInput!]
+  delete: [daily_itemized_reportsWhereUniqueInput!]
+  connect: [daily_itemized_reportsWhereUniqueInput!]
+  update: [daily_itemized_reportsUpdateWithWhereUniqueWithoutOperationInput!]
+  updateMany: [daily_itemized_reportsUpdateManyWithWhereWithoutOperationInput!]
+  deleteMany: [daily_itemized_reportsScalarWhereInput!]
+}
+
+input daily_itemized_reportsUpsertWithWhereUniqueWithoutOperationInput {
+  where: daily_itemized_reportsWhereUniqueInput!
+  update: daily_itemized_reportsUpdateWithoutOperationInput!
+  create: daily_itemized_reportsCreateWithoutOperationInput!
+}
+
+input daily_itemized_reportsUpdateWithoutOperationInput {
+  operation_time: NullableDateTimeFieldUpdateOperationsInput
+  daily_reports: daily_reportsUpdateOneRequiredWithoutDaily_itemized_reportsInput
+}
+
+input daily_itemized_reportsUpdateWithWhereUniqueWithoutOperationInput {
+  where: daily_itemized_reportsWhereUniqueInput!
+  data: daily_itemized_reportsUpdateWithoutOperationInput!
+}
+
+input daily_itemized_reportsUpdateManyWithWhereWithoutOperationInput {
+  where: daily_itemized_reportsScalarWhereInput!
+  data: daily_itemized_reportsUpdateManyMutationInput!
 }
