@@ -9,4 +9,5 @@
 | ------------- | ------------- | ------------- |
 | 0  | 環境構築  | [step-0](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-0) |
 | 1  | バックエンド（NestJS・Prisma）の構築  | [step-1](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-1) |
+| 2  | 残りのバックエンドAPIの構築  | [step-2](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-2) |
 
