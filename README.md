@@ -1,92 +1,63 @@
 # 概要
-残りのバックエンドサービスを構築し、GraphQLでアクセスするステップです。
+フロントエンドを構築するステップです。
 
 # ここで構築する内容
- - Calender以外のバックエンドサービスの実装
+ - Next.jsのインストール
+ - Next.jsプロジェクトの作成
 
-# 残りのリゾルバとサービスを作成する
-前のステップではcalenderテーブル用のリゾルバとサービスだけ作成しました。ここでは残りの5テーブル用のリゾルバとサービスを作成します。
+# インストール
+npm install --global @create-next-app/core
 
-|  テーブル名  |  リゾルバ・サービス構築済  |
+# プロジェクトの作成
+
+`frontend`フォルダに移動する。
+```
+cd　.\frontend\
+```
+
+プロジェクトはからのフォルダに作成する必要があるため、`.gitkeep`を削除する。
+
+以下のコマンドを実行してNext.jsプロジェクトを作成する。
+npx create-next-app . --typescript
+
+エラーが出た場合、JavaScriptでプロジェクトが作成されてしまった場合、以下を実行する。
+
+## 対処１：npx配下のpolyfills.jsの修正
+
+ローカルにあるnpxフォルダを検索する。
+
+見つかったフォルダの下にある`node_modules\npm\node_modules\graceful-fs`フォルダを開く。
+
+`polyfills.js`を開き、62～64行目をコメントアウトする。
+
+```JavaScript
+  fs.chmodSync = chmodFixSync(fs.chmodSync)
+  fs.fchmodSync = chmodFixSync(fs.fchmodSync)
+  fs.lchmodSync = chmodFixSync(fs.lchmodSync)
+
+  //  fs.stat = statFix(fs.stat)
+  //  fs.fstat = statFix(fs.fstat)
+  //  fs.lstat = statFix(fs.lstat)
+
+  fs.statSync = statFixSync(fs.statSync)
+  fs.fstatSync = statFixSync(fs.fstatSync)
+  fs.lstatSync = statFixSync(fs.lstatSync)
+```
+
+再度、コマンドを実行してプロジェクトを作成する。
+
+
+## 作成されたもの
+
+[Next.js](https://nextjs.org/)はReactベースのフレームワークです。サーバーサードレンダリングの機能など、Reactをさらに便利に使うための機能があります。
+
+プロジェクトの作成で作られたものは以下の通り。
+
+|  ファイル名・フォルダ名  |  役割  |
 | ----------- | --------- |
-|  calendar  |  済  |
-|  daily_itemized_reports  |  未  |
-|  daily_reports  |  未  |
-|  employees  |  未  |
-|  operation  |  未  |
-
-
-calenderと同様に`./src/database`フォルダにデータベース名のディレクトリを作成し、リゾルバとサービスを作成する。中身はcalenderと同じで使用するClientのクラスを変更します。
-
-当ブランチを参考に作成します。
-
-# モジュールへ追加する
-`./src/database/database_module.ts`へ作成したリゾルバとサービスを追加します。
-以下の用に修正し、追加します。
-
-```TypeScript
-@Module({
-  imports: [PrismaModule],
-  providers: [
-    CalendarResolver,
-    CalendarService,
-    DailyItemizedReportsResolver,
-    DailyItemizedReportsService,
-    DailyReportsResolver,
-    DailyReportsService,
-    DepartmentResolver,
-    DepartmentService,
-    EmployeesResolver,
-    EmployeesService,
-    OperationResolver,
-    OperationService
-  ],
-  exports: [CalendarService, 
-    DailyItemizedReportsService,
-    DailyReportsResolver,
-    DepartmentService,
-    EmployeesService,
-    OperationService
-  ],
-})
-export class DatabaseModule {}
-```
-
-モジュール追加することでGraphQLのサービスとして動くようになります。
-
-# 動作確認
-以下コマンド実行し、バックエンドサービスが起動できるかを確認する。
-
-```
-yarn start
-```
-
-起動後、localhost:3000/graphqlへアクセスし、Playgroundが起動することを確認する。
-
-## PlaygroundでGraphQLを実行する
-
-Playgroundからバックエンドサービスを呼び出すことができます。左上のクエリ記入欄に以下のクエリを入れ、
-
-```json
-query getCalender($where: calendarWhereUniqueInput!) {
-  calender: Calendar(where: $where) {
-    year_month,
-    day
-  }
-}
-```
-
-下のQUERY VALIABLESに以下を入れる。
-
-```json
-{ 
- "where": {"year_month_day": {"year_month": "200433", "day": "02"}}
-}
-```
-
-三角の実行ボタンを押し、クエリを実行する。エラーがなく実行でき、取得できるデータが無ければ正常にバックエンドサービスが稼働し、GraphQLとしてサービスが提供されています。
-
-## Playgroundの使い方
-右側にあるDOCSをクリックすると呼び出せるクエリや、パラメータの型、戻り値の型が確認できる。Playgorund上で任意に呼び出せるので、呼び出したいクエリを指定して実行する。
-
-クエリに後付けのパラメータを入れたい場合は$でパラメータを宣言し、下のQUERY VALIABLESでパラメータの実の値を入れる。
+|  pages  |  画面を構成するソース・APIを構成するソースを置くフォルダ、ファイル名・フォルダ構成がルーティングされる  |
+|  public  |  静的なファイルを置くフォルダ  |
+|  styles |  画面のデザインを決めるスタイルシートを置くフォルダ  |
+|  .eslintrc  |  ソースを静的に解析する定義ファイル  |
+|  next-env.d.ts  |  Next.js用のファイル、削除や編集は行わない  |
+|  next.config.js  |  Next.JSの設定を行うソース  |
