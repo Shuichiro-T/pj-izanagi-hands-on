@@ -61,3 +61,19 @@ npx create-next-app . --typescript
 |  .eslintrc  |  ソースを静的に解析する定義ファイル  |
 |  next-env.d.ts  |  Next.js用のファイル、削除や編集は行わない  |
 |  next.config.js  |  Next.JSの設定を行うソース  |
+
+
+# Next.jsの起動
+
+Next.jsを起動してみます。以下のコマンドを実行します。
+
+```
+yarn dev
+```
+
+Next.jsが起動したら[http://localhost:3000](http://localhost:3000)へアクセスします。「Welcome to Next.js!」というページが表示されていれば正常に起動しています。
+このページの内容は `pages/index.tsx`の内容になっています。
+
+次に[http://localhost:3000/api/hello](http://localhost:3000/api/hello)へアクセスします。「{"name":"John Doe"}」が表示されます。
+
+このページの内容は`pages/api/hello.ts`の内容になっています。`pages`配下のソースはフォルダ構成とともにNext.jsにルーティングされ、公開されます。
