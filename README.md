@@ -1,79 +1,57 @@
 # 概要
-フロントエンドを構築するステップです。
+メインの就業情報を入力する画面を実装するステップです。
 
 # ここで構築する内容
- - Next.jsのインストール
- - Next.jsプロジェクトの作成
+ - MUIのインストール
+ - 画面の作成
 
-# インストール
-npm install --global @create-next-app/core
+# MUIのインストール
+以下コマンドを実行してMUIをインストールする。
 
-# プロジェクトの作成
+`yarn add @mui/material @emotion/react @emotion/styled`
 
-`frontend`フォルダに移動する。
-```
-cd　.\frontend\
-```
 
-プロジェクトはからのフォルダに作成する必要があるため、`.gitkeep`を削除する。
+# MUI
 
-以下のコマンドを実行してNext.jsプロジェクトを作成する。
-npx create-next-app . --typescript
+[MUI](https://mui.com/core/)はMaterial Designを実装したReactのコンポーネントです。使用するとまとまった画面デザインが実現できます。
 
-エラーが出た場合、JavaScriptでプロジェクトが作成されてしまった場合、以下を実行する。
+# メインページ（就業管理入力画面）ファイルを作成する。
 
-## 対処１：npx配下のpolyfills.jsの修正
+`pages`配下に`main`フォルダを作成し、メインページとなる`[employees_id].tsx`ファイルを作成します。作成したファイルは以下のように編集します。
 
-ローカルにあるnpxフォルダを検索する。
+```TypeScript
+import { useRouter } from "next/router";
+import type { NextPage } from "next";
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
-見つかったフォルダの下にある`node_modules\npm\node_modules\graceful-fs`フォルダを開く。
 
-`polyfills.js`を開き、62～64行目をコメントアウトする。
+const MainPage: NextPage = () => {
+  const router = useRouter();
+  // パスパラメータから値を取得
+  const { employees_id } = router.query;
 
-```JavaScript
-  fs.chmodSync = chmodFixSync(fs.chmodSync)
-  fs.fchmodSync = chmodFixSync(fs.fchmodSync)
-  fs.lchmodSync = chmodFixSync(fs.lchmodSync)
+  return(
+    <Container>
+      <Box>{employees_id}</Box>
+    </Container>
+  )
+};
 
-  //  fs.stat = statFix(fs.stat)
-  //  fs.fstat = statFix(fs.fstat)
-  //  fs.lstat = statFix(fs.lstat)
-
-  fs.statSync = statFixSync(fs.statSync)
-  fs.fstatSync = statFixSync(fs.fstatSync)
-  fs.lstatSync = statFixSync(fs.lstatSync)
+export default MainPage;
 ```
 
-再度、コマンドを実行してプロジェクトを作成する。
+ファイル名に[]がついている理由はパスパラメータを受け取るためです。パスパラメータを変数employees_idへ格納し画面に表示しています。
+# 動作確認
 
+以下コマンドを実行してNext.jsを起動します。
 
-## 作成されたもの
+`yarn dev`
+起動したら、ブラウザから[http://localhost:3000/main/pathparam](http://localhost:3000/main/pathparam)へアクセスします。「pathparam」という画面が表示できていれば正常です。
 
-[Next.js](https://nextjs.org/)はReactベースのフレームワークです。サーバーサードレンダリングの機能など、Reactをさらに便利に使うための機能があります。
+## @emotion/styledモジュールが無い場合の対処
 
-プロジェクトの作成で作られたものは以下の通り。
+画面にアクセスした際、@emotion/styledモジュールが足りないというエラーが出た場合、以下を実行してモジュールを追加します。
 
-|  ファイル名・フォルダ名  |  役割  |
-| ----------- | --------- |
-|  pages  |  画面を構成するソース・APIを構成するソースを置くフォルダ、ファイル名・フォルダ構成がルーティングされる  |
-|  public  |  静的なファイルを置くフォルダ  |
-|  styles |  画面のデザインを決めるスタイルシートを置くフォルダ  |
-|  .eslintrc  |  ソースを静的に解析する定義ファイル  |
-|  next-env.d.ts  |  Next.js用のファイル、削除や編集は行わない  |
-|  next.config.js  |  Next.JSの設定を行うソース  |
+`yarn add @emotion/styled`
 
-
-# Next.jsの起動
-
-Next.jsを起動してみます。以下のコマンドを実行します。
-
-```
-yarn dev
-```
-
-Next.jsが起動したら[http://localhost:3000](http://localhost:3000)へアクセスします。「Welcome to Next.js!」というページが表示されていれば正常に起動しています。
-このページの内容は `pages/index.tsx`の内容になっています。
-
-次に[http://localhost:3000/api/hello](http://localhost:3000/api/hello)へアクセスします。「{"name":"John Doe"}」が表示されます。
-
-このページの内容は`pages/api/hello.ts`の内容になっています。`pages`配下のソースはフォルダ構成とともにNext.jsにルーティングされ、公開されます。
