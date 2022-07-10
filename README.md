@@ -55,3 +55,75 @@ export default MainPage;
 
 `yarn add @emotion/styled`
 
+# ユーザ情報表示エリアの実装
+
+ユーザ情報を表示するエリアを実装します。MUIのコンポーネントを使用して実装していきます。
+
+`[employees_id].tsx`を以下のように編集します。
+
+```TypeScript
+import { useRouter } from "next/router";
+import type { NextPage } from "next";
+import Container from '@mui/material/Container';
+import { Grid, Paper, TextField, Typography } from "@mui/material";
+
+
+const MainPage: NextPage = () => {
+  const router = useRouter();
+  // パスパラメータから値を取得
+  const { employees_id } = router.query;
+
+
+  //ユーザ情報を暫定的に定義
+  const userName = "ユーザ名１"
+  const departmentName = "〇〇〇部"
+
+  return(
+    <Container>
+      <Typography variant="h3" component="div">
+        就業管理登録画面
+      </Typography>
+
+      <Paper>
+        <Typography variant="subtitle1" component="div">
+          ユーザ情報
+        </Typography>
+        <Grid container spacing={4}>
+          <Grid item md={4}>
+            <TextField
+              label="所属"
+              defaultValue={departmentName}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </Grid>
+          <Grid item md={4}>
+            <TextField
+              label="名前"
+              defaultValue={userName}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </Grid>
+        </Grid>
+      </Paper>
+    </Container>
+  )
+};
+
+export default MainPage;
+```
+
+使用しているMUIのパーツは以下の通りです。
+
+
+|  コンポーネント名称  |  説明  | 公式ページへのリンク  |
+| ---- | ---- | ---- |
+|  Container  |  Containerは各コンポーネントを水平に配置するレイアウトです。よく使われるレイアウトです。  | [こちら](https://mui.com/material-ui/react-container/)
+|  Typography  |  Typographyは強調表示をするコンポーネントです。  |[こちら](https://mui.com/material-ui/react-typography/)
+|  Paper  |  Paperコンポーネントは画面上に紙のようなレイアウト表現を可能にします。  |[こちら](https://mui.com/material-ui/react-paper/)
+|  Grid  |  Gridコンポーネントは格子状のレイアウトを実装します。Gridコンポーネントを使用すると画面サイズに対応したレイアウトを提供します。  |[こちら](https://mui.com/material-ui/react-grid/)
+|  TextField  |  TextFieldコンポーネントは入力可能なテキストフィールドです。  |[こちら](https://mui.com/material-ui/react-text-field/)
+
