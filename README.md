@@ -19,7 +19,7 @@
 
 `pages`配下に`main`フォルダを作成し、メインページとなる`[employees_id].tsx`ファイルを作成します。作成したファイルは以下のように編集します。
 
-```TypeScript
+```TSX
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import Box from '@mui/material/Box';
@@ -61,7 +61,7 @@ export default MainPage;
 
 `[employees_id].tsx`を以下のように編集します。
 
-```TypeScript
+```TSX
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import Container from '@mui/material/Container';
@@ -135,7 +135,7 @@ export default MainPage;
 `[employees_id].tsx`を以下のように編集します。
 
 
-```TypeScript 
+```TSX
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import Container from '@mui/material/Container';
