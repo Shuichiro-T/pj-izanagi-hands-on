@@ -1,0 +1,9 @@
+query getCalenderList($where: calendarWhereInput!) {
+  CalendarList(where: $where) {
+    year_month
+    day
+    workday
+    saturday
+    holiday
+  }
+}
