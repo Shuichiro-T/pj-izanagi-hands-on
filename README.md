@@ -12,3 +12,5 @@
 | 2  | 残りのバックエンドAPIの構築  | [step-2](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-2) |
 | 3  | Next.jsプロジェクトの作成  | [step-3](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-3) |
 | 4  | 就業管理画面の作成  | [step-4](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-4) |
+| 5  | テスト用データの挿入  | [step-5](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-5) |
+| 6  | フロントとバックの連携  | [step-6](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-6) |
