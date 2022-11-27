@@ -1,0 +1,6 @@
+query getOperationList($where:operationWhereInput!) {
+  OperationList(where:$where) {
+    operation_id
+    operation_name
+  }
+}

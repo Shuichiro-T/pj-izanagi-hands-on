@@ -1,0 +1,7 @@
+query getEmployees($where:employeesWhereUniqueInput!){
+  Employees(where:$where) {
+    employees_id
+    employees_name
+    department_id
+  }
+}
