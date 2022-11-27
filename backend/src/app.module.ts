@@ -14,6 +14,9 @@ import { PrismaModule } from './prisma/prisma.module';
       driver: ApolloDriver,
       playground:true,
       autoSchemaFile: join(process.cwd(), 'schema.graphql'),
+      cors: { 
+        origin: "*"
+      },
     }),
     PrismaModule, 
     DatabaseModule],
