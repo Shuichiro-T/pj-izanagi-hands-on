@@ -3,52 +3,34 @@ import type { NextPage } from "next";
 import Container from '@mui/material/Container';
 import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 
+import { useGetCalenderListQuery } from "../../@generated/graphql";
+import createGqlClient from "../../utils/createGqlClient";
+
 
 const MainPage: NextPage = () => {
   const router = useRouter();
   // パスパラメータから値を取得
   const { employees_id } = router.query;
 
+  
+  //GraphQL用クライアントの作成
+  const gqlClient = createGqlClient()
 
   //ユーザ情報を暫定的に定義
   const userName = "ユーザ名１"
   const departmentName = "〇〇〇部"
 
   // 今月のカレンダー日付、暫定的に定義
-  const calenderDays = {
-    "data": {
-      "calender": [
-        {
-          "year_month": "202206",
-          "day": "01"
+  const {data: calenderDays, isLoading:isLoadingCalender} = useGetCalenderListQuery(
+    gqlClient,
+    {
+      where: {
+        year_month: {
+          equals: "202211" 
         },
-        {
-          "year_month": "202206",
-          "day": "02"
-        },
-        {
-          "year_month": "202206",
-          "day": "03"
-        },
-        {
-          "year_month": "202206",
-          "day": "04"
-        },
-        {
-          "year_month": "202206",
-          "day": "05"
-        },
-        {
-          "year_month": "202206",
-          "day": "06"
-        },
-        {
-          "year_month": "202206",
-          "day": "07"
-        }
-      ]
+      },
     }
-  }
+  )
 
   return(
     <Container>
@@ -100,34 +82,35 @@ const MainPage: NextPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {calenderDays.data.calender.map((calenderDay) => (
-                <TableRow key={calenderDay.day}>
-                  <TableCell>
-                  {calenderDay.year_month.slice(0,4) + "年" + 
-                    calenderDay.year_month.slice(4,6) + "月" + 
-                    calenderDay.day + "日"}
-                  </TableCell>
-                  <TableCell>
-                  </TableCell>
-                  <TableCell>
-                    <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
-                  </TableCell>
-                  <TableCell>
-                    <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
-                  </TableCell>
-                  <TableCell>
-                    <TextField size="small" inputProps={{maxLength: 10, size:10}}></TextField>
-                  </TableCell>
-                  <TableCell>
-                    <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
-                  </TableCell>
-                  <TableCell>
-                    <TextField size="small" inputProps={{maxLength: 10, size:10}}></TextField>
-                  </TableCell>
-                  <TableCell>
-                    <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
-                  </TableCell>
-                </TableRow>
+              {calenderDays?.CalendarList.sort((n1, n2) => (n2.day < n1.day ? 1 : -1))
+                .map((calenderDay) => (
+                  <TableRow key={calenderDay.day}>
+                    <TableCell>
+                    {calenderDay.year_month.slice(0,4) + "年" + 
+                      calenderDay.year_month.slice(4,6) + "月" + 
+                      calenderDay.day + "日"}
+                    </TableCell>
+                    <TableCell>
+                    </TableCell>
+                    <TableCell>
+                      <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
+                    </TableCell>
+                    <TableCell>
+                      <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
+                    </TableCell>
+                    <TableCell>
+                      <TextField size="small" inputProps={{maxLength: 10, size:10}}></TextField>
+                    </TableCell>
+                    <TableCell>
+                      <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
+                    </TableCell>
+                    <TableCell>
+                      <TextField size="small" inputProps={{maxLength: 10, size:10}}></TextField>
+                    </TableCell>
+                    <TableCell>
+                      <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
+                    </TableCell>
+                  </TableRow>
               ))}
 
             </TableBody>

@@ -1,0 +1,21 @@
+overwrite: true
+config: 
+  fetcher: graphql-request
+  exposeQueryKeys: true
+schema: "../backend/schema.graphql"
+generates:
+  ./@types/graphql.d.ts:
+    plugins:
+      - typescript
+    config:
+      noExport: true
+      enumsAsTypes: true
+  ./@generated/graphql.ts:
+    documents: "graphql/*.graphql"
+    plugins:
+      - add
+      - typescript-operations
+      - typescript-react-query
+    config:
+      content:
+        - // @ts-nocheck
