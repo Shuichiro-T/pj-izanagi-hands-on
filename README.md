@@ -186,3 +186,77 @@ query getOperationList($where:operationWhereInput!) {
 ```
 yarn generate
 ```
+
+`@generated/graphql.ts`に関数が追加されます。
+
+
+# ユーザの情報をバックエンドから取得して画面に反映させる
+
+ここからはフロントエンドからバックエンドを呼び出して画面へ反映させます。
+
+## ユーザ名の取得
+
+`pages/main/[employees_id].tsx`を以下のように編集してバックエンドから名前を取得し、画面に表示させるようにします。
+
+
+```pages/main/[employees_id].tsx
+import { useGetCalenderListQuery, useGetEmployeesQuery } from "../../@generated/graphql";
+...
+
+  //ユーザ情報を取得
+  const {data: employeesData, isLoading:isLoadingEmployees} = useGetEmployeesQuery (
+    gqlClient,
+    {
+      where: {
+        employees_id: Number(employees_id)
+      }
+    }
+  )
+  const userName = employeesData?.Employees?.employees_name
+...
+          <Grid item md={4}>
+            <TextField
+              label="名前"
+              defaultValue={"名前"}
+              value={userName}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </Grid>
+```
+
+はじめに先ほど作成した関数を呼び出してバックエンドへURLから取得したIDを使用して、ユーザ名を取得します。
+取得したユーザ名をTextfiledのvalueに設定し、表示しています。
+
+### パスパラメータ取得を同期化する
+
+NextJSのnext/routerを使ってパスパラメータを取得していますが、タイミングによってうまく値が取得できません。
+
+`pages/_app.tsx`を以下のように編集します。
+
+```pages/_app.tsx
+import '../styles/globals.css'
+import type { AppProps } from 'next/app'
+import { useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+function MyApp({ Component, pageProps }: AppProps) {
+
+  const [queryClient] = useState(() => new QueryClient());
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Component {...pageProps} />
+    </QueryClientProvider>
+  )
+}
+
+MyApp.getInitialProps = async () => ({ pageProps: {} })
+
+export default MyApp
+```
+
+
+
+## 画面への反映

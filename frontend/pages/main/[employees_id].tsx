@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import Container from '@mui/material/Container';
 import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 
-import { useGetCalenderListQuery } from "../../@generated/graphql";
+import { useGetCalenderListQuery, useGetEmployeesQuery } from "../../@generated/graphql";
 import createGqlClient from "../../utils/createGqlClient";
 
 
@@ -11,13 +11,21 @@ const MainPage: NextPage = () => {
   const router = useRouter();
   // パスパラメータから値を取得
   const { employees_id } = router.query;
-
   
   //GraphQL用クライアントの作成
   const gqlClient = createGqlClient()
 
-  //ユーザ情報を暫定的に定義
-  const userName = "ユーザ名１"
+  //ユーザ情報を取得
+  const {data: employeesData, isLoading:isLoadingEmployees} = useGetEmployeesQuery (
+    gqlClient,
+    {
+      where: {
+        employees_id: Number(employees_id)
+      }
+    }
+  )
+  const userName = employeesData?.Employees?.employees_name
+
   const departmentName = "〇〇〇部"
 
   // 今月のカレンダー日付、暫定的に定義
@@ -55,7 +63,8 @@ const MainPage: NextPage = () => {
           <Grid item md={4}>
             <TextField
               label="名前"
-              defaultValue={userName}
+              defaultValue={"名前"}
+              value={userName}
               InputProps={{
                 readOnly: true,
               }}
