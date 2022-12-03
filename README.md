@@ -257,6 +257,33 @@ MyApp.getInitialProps = async () => ({ pageProps: {} })
 export default MyApp
 ```
 
+## 組織の取得
+
+`pages/main/[employees_id].tsx`を以下のように編集して、組織を取得するようにします。ユーザの時とほぼ同じ修正になります。
 
 
-## 画面への反映
+```pages/main/[employees_id].tsx
+import { useGetCalenderListQuery, useGetDepartmentQuery, useGetEmployeesQuery } from "../../@generated/graphql";
+...
+  //所属情報を取得
+  const {data:deparmentData,isLoading:isLoadingDepartment} = useGetDepartmentQuery (
+    gqlClient,
+    {
+      where: {
+        department_id: employeesData?.Employees?.department_id
+      }
+    }
+  )
+  const departmentName = deparmentData?.Department?.department_name
+...
+            <TextField
+              label="所属"
+              defaultValue={"所属"}
+              value={departmentName}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+```
+
+バックエンドから取得したdepartment_idを用いて、バックエンドから組織名を取得して画面に表示しています。

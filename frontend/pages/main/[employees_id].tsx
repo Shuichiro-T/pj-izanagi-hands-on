@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import Container from '@mui/material/Container';
 import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 
-import { useGetCalenderListQuery, useGetEmployeesQuery } from "../../@generated/graphql";
+import { useGetCalenderListQuery, useGetDepartmentQuery, useGetEmployeesQuery } from "../../@generated/graphql";
 import createGqlClient from "../../utils/createGqlClient";
 
 
@@ -26,7 +26,16 @@ const MainPage: NextPage = () => {
   )
   const userName = employeesData?.Employees?.employees_name
 
-  const departmentName = "〇〇〇部"
+  //所属情報を取得
+  const {data:deparmentData,isLoading:isLoadingDepartment} = useGetDepartmentQuery (
+    gqlClient,
+    {
+      where: {
+        department_id: employeesData?.Employees?.department_id
+      }
+    }
+  )
+  const departmentName = deparmentData?.Department?.department_name
 
   // 今月のカレンダー日付、暫定的に定義
   const {data: calenderDays, isLoading:isLoadingCalender} = useGetCalenderListQuery(
@@ -54,7 +63,8 @@ const MainPage: NextPage = () => {
           <Grid item md={4}>
             <TextField
               label="所属"
-              defaultValue={departmentName}
+              defaultValue={"所属"}
+              value={departmentName}
               InputProps={{
                 readOnly: true,
               }}

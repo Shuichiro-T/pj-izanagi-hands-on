@@ -13,6 +13,13 @@ export type GetCalenderListQueryVariables = Exact<{
 
 export type GetCalenderListQuery = { __typename?: 'Query', CalendarList: Array<{ __typename?: 'calendar', year_month: string, day: string, workday: boolean, saturday: boolean, holiday: boolean }> };
 
+export type GetDepartmentQueryVariables = Exact<{
+  where: DepartmentWhereUniqueInput;
+}>;
+
+
+export type GetDepartmentQuery = { __typename?: 'Query', Department?: { __typename?: 'department', department_id: string, department_name: string } | null };
+
 export type GetEmployeesQueryVariables = Exact<{
   where: EmployeesWhereUniqueInput;
 }>;
@@ -55,6 +62,32 @@ export const useGetCalenderListQuery = <
     );
 
 useGetCalenderListQuery.getKey = (variables: GetCalenderListQueryVariables) => ['getCalenderList', variables];
+;
+
+export const GetDepartmentDocument = `
+    query getDepartment($where: departmentWhereUniqueInput!) {
+  Department(where: $where) {
+    department_id
+    department_name
+  }
+}
+    `;
+export const useGetDepartmentQuery = <
+      TData = GetDepartmentQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetDepartmentQueryVariables,
+      options?: UseQueryOptions<GetDepartmentQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetDepartmentQuery, TError, TData>(
+      ['getDepartment', variables],
+      fetcher<GetDepartmentQuery, GetDepartmentQueryVariables>(client, GetDepartmentDocument, variables, headers),
+      options
+    );
+
+useGetDepartmentQuery.getKey = (variables: GetDepartmentQueryVariables) => ['getDepartment', variables];
 ;
 
 export const GetEmployeesDocument = `

@@ -1,0 +1,6 @@
+query getDepartment($where:departmentWhereUniqueInput!){
+  Department(where:$where) {
+    department_id
+    department_name
+  }
+}
