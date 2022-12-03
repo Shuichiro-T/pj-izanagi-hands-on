@@ -287,3 +287,10 @@ import { useGetCalenderListQuery, useGetDepartmentQuery, useGetEmployeesQuery } 
 ```
 
 バックエンドから取得したdepartment_idを用いて、バックエンドから組織名を取得して画面に表示しています。
+
+# 実際に画面を確認する
+
+フロントとバックを起動した後、ブラウザで[http://localhost:3000/main/1](http://localhost:3000/main/1)へアクセスして画面を確認します。うまく連携できていれば、ユーザ情報の組織と名前が表示されています。
+
+表示されるデータは先ほど作成したテストデータの内容になります。URLの1を2,3に変更すると表示される値が変わります。
+
