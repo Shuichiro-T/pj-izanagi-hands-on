@@ -46,3 +46,29 @@
 ```
 
 画面を確認すると今まで空白だった曜日に曜日が出力されています。
+
+
+# 時間の入力補助
+
+時間の入力を補助するように変更します。。`pages/main/[employees_id].tsx`を以下のように編集します。
+
+```pages/main/[employees_id].tsx
+...
+                    <TableCell>
+                      <TextField
+                        id="startTime"
+                        type="time"
+                        defaultValue="09:00"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        id="endTime"
+                        type="time"
+                        defaultValue="17:30"
+                      />
+                    </TableCell>
+...
+```
+
+MUIのTextFieldにはTimeタイプが用意されているので、そちらを使用するように編集しています。

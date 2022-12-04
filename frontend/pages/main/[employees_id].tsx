@@ -5,9 +5,12 @@ import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, Ta
 
 import { useGetCalenderListQuery, useGetDepartmentQuery, useGetEmployeesQuery } from "../../@generated/graphql";
 import createGqlClient from "../../utils/createGqlClient";
-
+import { useState } from "react";
 
 const MainPage: NextPage = () => {
+  const [starTimes, setStartTimes] = useState<number>(1111111111);
+  console.log(starTimes)
+
   const router = useRouter();
   // パスパラメータから値を取得
   const { employees_id } = router.query;
@@ -122,10 +125,18 @@ const MainPage: NextPage = () => {
                       {getDayname(calenderDay.year_month, calenderDay.day)}
                     </TableCell>
                     <TableCell>
-                      <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
+                      <TextField
+                        id="startTime"
+                        type="time"
+                        defaultValue="09:00"
+                      />
                     </TableCell>
                     <TableCell>
-                      <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
+                      <TextField
+                        id="endTime"
+                        type="time"
+                        defaultValue="17:30"
+                      />
                     </TableCell>
                     <TableCell>
                       <TextField size="small" inputProps={{maxLength: 10, size:10}}></TextField>
