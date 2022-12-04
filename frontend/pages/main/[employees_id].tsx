@@ -49,6 +49,15 @@ const MainPage: NextPage = () => {
     }
   )
 
+  //曜日を取得する関数
+  const getDayname = (yearMonth: string, day: string) => {
+    const parameterDate = new Date(yearMonth.slice(0,4) + "/" + 
+      yearMonth.slice(4,6) + "/" + 
+      day)
+    const dayNames = ['日','月','火','水','木','金','土']
+    return dayNames[parameterDate.getDay()]
+  }
+
   return(
     <Container>
       <Typography variant="h3" component="div">
@@ -105,11 +114,12 @@ const MainPage: NextPage = () => {
                 .map((calenderDay) => (
                   <TableRow key={calenderDay.day}>
                     <TableCell>
-                    {calenderDay.year_month.slice(0,4) + "年" + 
-                      calenderDay.year_month.slice(4,6) + "月" + 
-                      calenderDay.day + "日"}
+                      {calenderDay.year_month.slice(0,4) + "年" + 
+                        calenderDay.year_month.slice(4,6) + "月" + 
+                        calenderDay.day + "日"}
                     </TableCell>
                     <TableCell>
+                      {getDayname(calenderDay.year_month, calenderDay.day)}
                     </TableCell>
                     <TableCell>
                       <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
