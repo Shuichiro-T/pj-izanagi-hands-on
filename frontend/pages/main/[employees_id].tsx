@@ -1,15 +1,12 @@
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import Container from '@mui/material/Container';
-import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Grid, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 
-import { useGetCalenderListQuery, useGetDepartmentQuery, useGetEmployeesQuery } from "../../@generated/graphql";
+import { useGetCalenderListQuery, useGetDepartmentQuery, useGetEmployeesQuery, useGetOperationListQuery } from "../../@generated/graphql";
 import createGqlClient from "../../utils/createGqlClient";
-import { useState } from "react";
 
 const MainPage: NextPage = () => {
-  const [starTimes, setStartTimes] = useState<number>(1111111111);
-  console.log(starTimes)
 
   const router = useRouter();
   // パスパラメータから値を取得
@@ -30,15 +27,26 @@ const MainPage: NextPage = () => {
   const userName = employeesData?.Employees?.employees_name
 
   //所属情報を取得
-  const {data:deparmentData,isLoading:isLoadingDepartment} = useGetDepartmentQuery (
+  const {data:deparmentData, isLoading:isLoadingDepartment} = useGetDepartmentQuery (
     gqlClient,
     {
       where: {
         department_id: employeesData?.Employees?.department_id
       }
+    },
+    {
+      enabled: !isLoadingEmployees
     }
   )
   const departmentName = deparmentData?.Department?.department_name
+
+  //作業リストの取得
+  const {data:operationData, isLoading:isLoadingtOperation}= useGetOperationListQuery (
+    gqlClient,
+    {
+      where: {}
+    }
+  )
 
   // 今月のカレンダー日付、暫定的に定義
   const {data: calenderDays, isLoading:isLoadingCalender} = useGetCalenderListQuery(
@@ -139,13 +147,39 @@ const MainPage: NextPage = () => {
                       />
                     </TableCell>
                     <TableCell>
-                      <TextField size="small" inputProps={{maxLength: 10, size:10}}></TextField>
+                      <Select
+                        labelId="label-operation1"
+                        id="operation1"
+                        value={"1"}
+                      >
+                        {operationData?.OperationList.map((operationItem) => (
+                          <MenuItem 
+                            key={"key-operation1-" + operationItem.operation_id} 
+                            value={operationItem.operation_id}
+                            >
+                              {operationItem.operation_name}
+                          </MenuItem>
+                        ))}
+                      </Select>
                     </TableCell>
                     <TableCell>
                       <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
                     </TableCell>
                     <TableCell>
-                      <TextField size="small" inputProps={{maxLength: 10, size:10}}></TextField>
+                      <Select
+                        labelId="label-operation1"
+                        id="operation1"
+                        value={"2"}
+                      >
+                        {operationData?.OperationList.map((operationItem) => (
+                          <MenuItem 
+                            key={"key-operation1-" + operationItem.operation_id} 
+                            value={operationItem.operation_id}
+                            >
+                              {operationItem.operation_name}
+                          </MenuItem>
+                        ))}
+                      </Select>
                     </TableCell>
                     <TableCell>
                       <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>

@@ -72,3 +72,72 @@
 ```
 
 MUIのTextFieldにはTimeタイプが用意されているので、そちらを使用するように編集しています。
+
+# 作業内容の入力補助
+
+作業内容をバックエンドから取得し、画面で入力する際の候補としてドロップダウンに表示するようにします。
+## データの取得
+
+まずは、バックエンドのデータを取得します。`pages/main/[employees_id].tsx`に以下を追加します。
+
+```pages/main/[employees_id].tsx
+...
+  //作業リストの取得
+  const {data:operationData, isLoading:isLoadingtOperation}= useGetOperationListQuery (
+    gqlClient,
+    {
+      where: {}
+    }
+  )
+...
+```
+
+生成した関数の呼び出しを、検索条件なしで呼び出します。
+
+## ドロップダウンの反映
+
+取得したデータを画面に反映させるように`pages/main/[employees_id].tsx`を以下のように編集します。
+
+
+```pages/main/[employees_id].tsx
+...
+                    <TableCell>
+                      <Select
+                        labelId="label-operation1"
+                        id="operation1"
+                        value={"1"}
+                      >
+                        {operationData?.OperationList.map((operationItem) => (
+                          <MenuItem 
+                            key={"key-operation1-" + operationItem.operation_id} 
+                            value={operationItem.operation_id}
+                            >
+                              {operationItem.operation_name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </TableCell>
+                    <TableCell>
+                      <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
+                    </TableCell>
+                    <TableCell>
+                      <Select
+                        labelId="label-operation1"
+                        id="operation1"
+                        value={"2"}
+                      >
+                        {operationData?.OperationList.map((operationItem) => (
+                          <MenuItem 
+                            key={"key-operation1-" + operationItem.operation_id} 
+                            value={operationItem.operation_id}
+                            >
+                              {operationItem.operation_name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </TableCell>
+...
+```
+
+MUIのSelectとMenuItemを使用してドロップダウンを作成します。先ほど取得したoperationDataの項目でMenuItemを
+作成することで、バックエンドから取得したデータでドロップダウンを作成します。
