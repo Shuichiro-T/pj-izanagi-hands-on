@@ -1,11 +1,34 @@
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import Container from '@mui/material/Container';
-import { Grid, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 
-import { useGetCalenderListQuery, useGetDepartmentQuery, useGetEmployeesQuery, useGetOperationListQuery } from "../../@generated/graphql";
+import { GetOperationListQuery, useGetCalenderListQuery, useGetDepartmentQuery, useGetEmployeesQuery, useGetOperationListQuery } from "../../@generated/graphql";
 import createGqlClient from "../../utils/createGqlClient";
 import DailyRowComponents from "../../components/DailyRowComponents";
+
+import {
+  createContext
+} from "react";
+
+type ContextType = {
+  operationData:GetOperationListQuery | undefined
+  employees_id:number
+  userName?:string
+  department_id?:number
+  departmentName?:string
+}
+
+
+export const MainContext = createContext<ContextType>(
+  {
+    operationData:undefined,
+    employees_id:0,
+    userName:"",
+    department_id:0,
+    departmentName:""
+  }
+);
 
 const MainPage: NextPage = () => {
 
@@ -61,6 +84,14 @@ const MainPage: NextPage = () => {
     }
   )
 
+  const contextValues = {
+    operationData:operationData,
+    employees_id:Number(employees_id),
+    userName:userName,
+    department_id:employeesData?.Employees?.department_id,
+    departmentName:departmentName
+  }
+
   return(
     <Container>
       <Typography variant="h3" component="div">
@@ -112,16 +143,18 @@ const MainPage: NextPage = () => {
                 <TableCell>作業内容２時間</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {calenderDays?.CalendarList.sort((n1, n2) => (n2.day < n1.day ? 1 : -1))
-                .map((calenderDay) => (
-                  <DailyRowComponents
-                    yearMonth={calenderDay.year_month} 
-                    day={calenderDay.day}
-                    key={calenderDay.day}
-                  />  
-              ))}
-            </TableBody>
+            <MainContext.Provider value={contextValues}>
+              <TableBody>
+                {calenderDays?.CalendarList.sort((n1, n2) => (n2.day < n1.day ? 1 : -1))
+                  .map((calenderDay) => (
+                    <DailyRowComponents
+                      yearMonth={calenderDay.year_month} 
+                      day={calenderDay.day}
+                      key={calenderDay.day}
+                    />  
+                ))}
+              </TableBody>
+            </MainContext.Provider>
           </Table>
         </TableContainer>
       </Paper>

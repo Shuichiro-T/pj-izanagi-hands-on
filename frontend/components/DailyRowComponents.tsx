@@ -1,4 +1,6 @@
 import { MenuItem, Select, TableCell, TableRow, TextField } from "@mui/material";
+import { useContext } from "react";
+import { MainContext } from "../pages/main/[employees_id]";
 
 type Props = {
   yearMonth:string
@@ -17,6 +19,9 @@ const getDayname = (yearMonth: string, day: string) => {
 
 
 const DailyRowComponents = (props: Props) => {
+
+  const { operationData } = useContext(MainContext);
+
   return (
     <TableRow key={props.day}>
       <TableCell>
@@ -42,7 +47,7 @@ const DailyRowComponents = (props: Props) => {
         />
       </TableCell>
       <TableCell>
-        {/* <Select
+        <Select
           labelId="label-operation1"
           id="operation1"
           value={"1"}
@@ -55,26 +60,26 @@ const DailyRowComponents = (props: Props) => {
               {operationItem.operation_name}
             </MenuItem>
           ))}
-        </Select> */}
+        </Select>
       </TableCell>
       <TableCell>
         <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
       </TableCell>
       <TableCell>
-        {/* <Select
+        <Select
           labelId="label-operation1"
           id="operation1"
           value={"2"}
         >
           {operationData?.OperationList.map((operationItem) => (
-          <MenuItem 
-            key={"key-operation1-" + operationItem.operation_id} 
-            value={operationItem.operation_id}
-            >
-            {operationItem.operation_name}
-          </MenuItem>
+            <MenuItem 
+              key={"key-operation1-" + operationItem.operation_id} 
+              value={operationItem.operation_id}
+              >
+              {operationItem.operation_name}
+            </MenuItem>
           ))}
-        </Select> */}
+        </Select>
       </TableCell>
       <TableCell>
         <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>

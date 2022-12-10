@@ -139,3 +139,92 @@ Selectをコメントアウトしているのは、この後書き換えるた�
 ```
 
 Propsに指定した引数が指定できるようになっています。keyはmapの中で使用するため、ユニークになるものを指定します。
+
+# 共有する情報の受け渡し
+
+Propsで年と月、日を受け渡すようにしました。作業内容は全てのコンポーネントで共通で使用されます。共通で使用する情報はuseContextという仕組みで情報を共有します。
+
+## 情報の格納
+
+まずは共通して使う情報を格納します。`pages/main/[employees_id].tsx`を以下の様に編集します。MainPageの外側に追加するように編集してください。
+
+
+```pages/main/[employees_id].tsx
+import {
+  createContext
+} from "react";
+
+type ContextType = {
+  operationData:GetOperationListQuery | undefined
+  employees_id:number
+  userName?:string
+  department_id?:number
+  departmentName?:string
+}
+
+
+export const MainContext = createContext<ContextType>(
+  {
+    operationData:undefined,
+    employees_id:0,
+    userName:"",
+    department_id:0,
+    departmentName:""
+  }
+);
+```
+
+createContextを使用して共通して使用する情報をコンテキストに格納します。MainContextをexportして、他のコンポーネントでも使用できるようにします。
+格納する値が複雑になるので、型を定義しcreateContext呼び出し時の引数にデフォルト値を格納しています。
+
+次に、実際にコンテキストに格納する値を定義します。MainPageのreturn直前に以下を追加します。
+
+
+```pages/main/[employees_id].tsx
+  const contextValues = {
+    operationData:operationData,
+    employees_id:Number(employees_id),
+    userName:userName,
+    department_id:employeesData?.Employees?.department_id,
+    departmentName:departmentName
+  }
+```
+
+実際にバックエンドから取得した値を格納しています。
+
+
+最後に、各コンポーネントからコンテキストが使えるようにします。Providerを使い、その配下（タグの中にある）コンポーネントから
+コンテキストに格納した値にアクセスできるようにします。
+
+```pages/main/[employees_id].tsx
+            <MainContext.Provider value={contextValues}>
+              <TableBody>
+                {calenderDays?.CalendarList.sort((n1, n2) => (n2.day < n1.day ? 1 : -1))
+                  .map((calenderDay) => (
+                    <DailyRowComponents
+                      yearMonth={calenderDay.year_month} 
+                      day={calenderDay.day}
+                      key={calenderDay.day}
+                    />  
+                ))}
+              </TableBody>
+            </MainContext.Provider>
+```
+
+
+
+## 情報の取得
+
+コンポーネントから、コンテキストの情報を取得します。`components/DailyRowComponents.ts`のDailyRowComponentsの中に以下を追加します。
+
+
+
+```components/DailyRowComponents.tsx
+...
+  const { operationData } = useContext(MainContext);
+...
+```
+
+useContextを使い先ほどexportしたMainContextを通じて情報を取得します。そのあと、コメントアウトしたSelectのコメントを外します。
+
+これでコンテキストを通じて情報のやりとりをコンポーネント同士で行うことができました。
