@@ -14,3 +14,7 @@
 | 4  | 就業管理画面の作成  | [step-4](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-4) |
 | 5  | テスト用データの挿入  | [step-5](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-5) |
 | 6  | フロントとバックの連携  | [step-6](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-6) |
+| 7  | フロントとバックの連携２  | [step-7](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-7) |
+| 8  | 入力補助の実装  | [step-8](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-8) |
+| 9  | コンポーネント化  | [step-9](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-9) |
+| 10  | 入力データの反映  | [step-10](https://github.com/Shuichiro-T/pj-izanagi-hands-on/tree/step-10) |
