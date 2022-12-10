@@ -1,143 +1,141 @@
 # 概要
-画面に入力補助や見た目を入れるステップです。
+このステップでは、画面の項目をコンポーネント化します。
 
 # ここで構築する内容
- - 曜日を画面に表示するようにします
- - 時間の入力補助
- - 作業内容がドロップダウンで選択できるようにします
+ - 各日別の画面項目をコンポーネント化する
+ - コンポーネント化した部品でも情報を共有できるようにする
 
-# 曜日を画面に表示
+# 日別の入力欄をコンポーネント化する
 
-ここでは曜日を出力するようにします。
+ここでは日付の分繰り返さ絵れる入力欄をコンポーネント化します。コンポーネント化することで、色んな処理が一つのファイルに集中せずに
+必要な項目と関数が別々のファイルにまとめることができます。
 
-## 曜日を取得する関数の作成
+## 個別のコンポーネントを作成する
 
-まずは曜日を取得するための関数を作成します。`pages/main/[employees_id].tsx`に以下の関数を追加します。
+`components`フォルダを作成し、`DailyRowComponents.tsx`ファイルを作成します。このファイルに入力用のコンポーネントを作成していきます。
 
-```pages/main/[employees_id].tsx
-  //曜日を取得する関数
-  const getDayname = (yearMonth: string, day: string) => {
-    const parameterDate = new Date(yearMonth.slice(0,4) + "/" + 
-      yearMonth.slice(4,6) + "/" + 
-      day)
-    const dayNames = ['日','月','火','水','木','金','土']
-    return dayNames[parameterDate.getDay()]
-  }
+`[employees_id].tsx`のTableRowをコンポーネントに移します。
+
+
+### getDayname関数
+
+まずは、`DailyRowComponents.tsx`にgetDayname関数を移します。
+
+### Props（引数）の設定
+
+DailyRowComponentsは引数を受け取りたいので、引数の型を定義します。
+
+`components/DailyRowComponents.tsx`へ以下を追加します。
+
+```components/DailyRowComponents.tsx
+type Props = {
+  yearMonth:string
+  day:string
+};
 ```
 
-バックエンドから取得した値をいったんDateオブジェクトに変換し、getDay()関数を呼び出し曜日の文字列へ変換しています。
+これがこのコンポートのProps（引数）になります。
+### 入力項目の移行
 
-## 表示部分へ関数を呼び出す。
+次に入力項目をコンポーネントに移します。
 
-表示箇所で関数を呼び出します。`pages/main/[employees_id].tsx`を以下のように編集します。
+`components/DailyRowComponents.tsx`を以下のように編集します。TableRowの中を移しているだけですが、Propsを使用するように変更しています。
 
-
-```pages/main/[employees_id].tsx
-...
-                    <TableCell>
-                      {calenderDay.year_month.slice(0,4) + "年" + 
-                        calenderDay.year_month.slice(4,6) + "月" + 
-                        calenderDay.day + "日"}
-                    </TableCell>
-                    <TableCell>
-                      {getDayname(calenderDay.year_month, calenderDay.day)}
-                    </TableCell>
-...
-```
-
-画面を確認すると今まで空白だった曜日に曜日が出力されています。
-
-
-# 時間の入力補助
-
-時間の入力を補助するように変更します。。`pages/main/[employees_id].tsx`を以下のように編集します。
-
-```pages/main/[employees_id].tsx
-...
-                    <TableCell>
-                      <TextField
-                        id="startTime"
-                        type="time"
-                        defaultValue="09:00"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        id="endTime"
-                        type="time"
-                        defaultValue="17:30"
-                      />
-                    </TableCell>
-...
-```
-
-MUIのTextFieldにはTimeタイプが用意されているので、そちらを使用するように編集しています。
-
-# 作業内容の入力補助
-
-作業内容をバックエンドから取得し、画面で入力する際の候補としてドロップダウンに表示するようにします。
-## データの取得
-
-まずは、バックエンドのデータを取得します。`pages/main/[employees_id].tsx`に以下を追加します。
-
-```pages/main/[employees_id].tsx
-...
-  //作業リストの取得
-  const {data:operationData, isLoading:isLoadingtOperation}= useGetOperationListQuery (
-    gqlClient,
-    {
-      where: {}
-    }
+```components/DailyRowComponents.tsx
+const DailyRowComponents = (props: Props) => {
+  return (
+    <TableRow key={props.day}>
+      <TableCell>
+        {props.yearMonth.slice(0,4) + "年" + 
+          props.yearMonth.slice(4,6) + "月" + 
+          props.day + "日"}
+      </TableCell>
+      <TableCell>
+        {getDayname(props.yearMonth, props.day)}
+      </TableCell>
+      <TableCell>
+        <TextField
+          id="startTime"
+          type="time"
+          defaultValue="09:00"
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          id="endTime"
+          type="time"
+          defaultValue="17:30"
+        />
+      </TableCell>
+      <TableCell>
+        {/* <Select
+          labelId="label-operation1"
+          id="operation1"
+          value={"1"}
+        >
+          {operationData?.OperationList.map((operationItem) => (
+            <MenuItem 
+              key={"key-operation1-" + operationItem.operation_id} 
+              value={operationItem.operation_id}
+              >
+              {operationItem.operation_name}
+            </MenuItem>
+          ))}
+        </Select> */}
+      </TableCell>
+      <TableCell>
+        <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
+      </TableCell>
+      <TableCell>
+        {/* <Select
+          labelId="label-operation1"
+          id="operation1"
+          value={"2"}
+        >
+          {operationData?.OperationList.map((operationItem) => (
+          <MenuItem 
+            key={"key-operation1-" + operationItem.operation_id} 
+            value={operationItem.operation_id}
+            >
+            {operationItem.operation_name}
+          </MenuItem>
+          ))}
+        </Select> */}
+      </TableCell>
+      <TableCell>
+        <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
+      </TableCell>
+    </TableRow>
   )
-...
+}
+
+export default DailyRowComponents;
 ```
 
-生成した関数の呼び出しを、検索条件なしで呼び出します。
+DailyRowComponentsの引数にPropsを指定し、コンポーネント自体に引数をうけとるようにしています。
 
-## ドロップダウンの反映
+Selectをコメントアウトしているのは、この後書き換えるためです。
 
-取得したデータを画面に反映させるように`pages/main/[employees_id].tsx`を以下のように編集します。
+
+### コンポーネントの呼び出し
+
+
+`pages/main/[employees_id].tsx`からコンポーネントを呼び出すよう、以下のように編集します。
 
 
 ```pages/main/[employees_id].tsx
 ...
-                    <TableCell>
-                      <Select
-                        labelId="label-operation1"
-                        id="operation1"
-                        value={"1"}
-                      >
-                        {operationData?.OperationList.map((operationItem) => (
-                          <MenuItem 
-                            key={"key-operation1-" + operationItem.operation_id} 
-                            value={operationItem.operation_id}
-                            >
-                              {operationItem.operation_name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
-                    </TableCell>
-                    <TableCell>
-                      <Select
-                        labelId="label-operation1"
-                        id="operation1"
-                        value={"2"}
-                      >
-                        {operationData?.OperationList.map((operationItem) => (
-                          <MenuItem 
-                            key={"key-operation1-" + operationItem.operation_id} 
-                            value={operationItem.operation_id}
-                            >
-                              {operationItem.operation_name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </TableCell>
+            <TableBody>
+              {calenderDays?.CalendarList.sort((n1, n2) => (n2.day < n1.day ? 1 : -1))
+                .map((calenderDay) => (
+                  <DailyRowComponents
+                    yearMonth={calenderDay.year_month} 
+                    day={calenderDay.day}
+                    key={calenderDay.day}
+                  />  
+              ))}
+            </TableBody>
 ...
 ```
 
-MUIのSelectとMenuItemを使用してドロップダウンを作成します。先ほど取得したoperationDataの項目でMenuItemを
-作成することで、バックエンドから取得したデータでドロップダウンを作成します。
+Propsに指定した引数が指定できるようになっています。keyはmapの中で使用するため、ユニークになるものを指定します。

@@ -5,6 +5,7 @@ import { Grid, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContai
 
 import { useGetCalenderListQuery, useGetDepartmentQuery, useGetEmployeesQuery, useGetOperationListQuery } from "../../@generated/graphql";
 import createGqlClient from "../../utils/createGqlClient";
+import DailyRowComponents from "../../components/DailyRowComponents";
 
 const MainPage: NextPage = () => {
 
@@ -60,15 +61,6 @@ const MainPage: NextPage = () => {
     }
   )
 
-  //曜日を取得する関数
-  const getDayname = (yearMonth: string, day: string) => {
-    const parameterDate = new Date(yearMonth.slice(0,4) + "/" + 
-      yearMonth.slice(4,6) + "/" + 
-      day)
-    const dayNames = ['日','月','火','水','木','金','土']
-    return dayNames[parameterDate.getDay()]
-  }
-
   return(
     <Container>
       <Typography variant="h3" component="div">
@@ -123,70 +115,12 @@ const MainPage: NextPage = () => {
             <TableBody>
               {calenderDays?.CalendarList.sort((n1, n2) => (n2.day < n1.day ? 1 : -1))
                 .map((calenderDay) => (
-                  <TableRow key={calenderDay.day}>
-                    <TableCell>
-                      {calenderDay.year_month.slice(0,4) + "年" + 
-                        calenderDay.year_month.slice(4,6) + "月" + 
-                        calenderDay.day + "日"}
-                    </TableCell>
-                    <TableCell>
-                      {getDayname(calenderDay.year_month, calenderDay.day)}
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        id="startTime"
-                        type="time"
-                        defaultValue="09:00"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        id="endTime"
-                        type="time"
-                        defaultValue="17:30"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Select
-                        labelId="label-operation1"
-                        id="operation1"
-                        value={"1"}
-                      >
-                        {operationData?.OperationList.map((operationItem) => (
-                          <MenuItem 
-                            key={"key-operation1-" + operationItem.operation_id} 
-                            value={operationItem.operation_id}
-                            >
-                              {operationItem.operation_name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
-                    </TableCell>
-                    <TableCell>
-                      <Select
-                        labelId="label-operation1"
-                        id="operation1"
-                        value={"2"}
-                      >
-                        {operationData?.OperationList.map((operationItem) => (
-                          <MenuItem 
-                            key={"key-operation1-" + operationItem.operation_id} 
-                            value={operationItem.operation_id}
-                            >
-                              {operationItem.operation_name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
-                    </TableCell>
-                  </TableRow>
+                  <DailyRowComponents
+                    yearMonth={calenderDay.year_month} 
+                    day={calenderDay.day}
+                    key={calenderDay.day}
+                  />  
               ))}
-
             </TableBody>
           </Table>
         </TableContainer>
