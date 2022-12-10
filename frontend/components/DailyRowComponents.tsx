@@ -1,5 +1,5 @@
-import { MenuItem, Select, TableCell, TableRow, TextField } from "@mui/material";
-import { useContext } from "react";
+import { MenuItem, Select, SelectChangeEvent, TableCell, TableRow, TextField } from "@mui/material";
+import { useContext, useState } from "react";
 import { MainContext } from "../pages/main/[employees_id]";
 
 type Props = {
@@ -21,6 +21,10 @@ const getDayname = (yearMonth: string, day: string) => {
 const DailyRowComponents = (props: Props) => {
 
   const { operationData } = useContext(MainContext);
+
+  const [operationValue1, setOperationValue1] = useState("1")
+
+  const [operationValue2, setOperationValue2] = useState("2")
 
   return (
     <TableRow key={props.day}>
@@ -50,13 +54,16 @@ const DailyRowComponents = (props: Props) => {
         <Select
           labelId="label-operation1"
           id="operation1"
-          value={"1"}
+          value={operationValue1}
+          onChange={(event: SelectChangeEvent) => {
+            setOperationValue1(event.target.value)
+          }}
         >
           {operationData?.OperationList.map((operationItem) => (
             <MenuItem 
               key={"key-operation1-" + operationItem.operation_id} 
               value={operationItem.operation_id}
-              >
+            >
               {operationItem.operation_name}
             </MenuItem>
           ))}
@@ -67,15 +74,18 @@ const DailyRowComponents = (props: Props) => {
       </TableCell>
       <TableCell>
         <Select
-          labelId="label-operation1"
-          id="operation1"
-          value={"2"}
+          labelId="label-operation2"
+          id="operation2"
+          value={operationValue2}
+          onChange={(event: SelectChangeEvent) => {
+            setOperationValue2(event.target.value)
+          }}
         >
           {operationData?.OperationList.map((operationItem) => (
             <MenuItem 
-              key={"key-operation1-" + operationItem.operation_id} 
+              key={"key-operation2-" + operationItem.operation_id} 
               value={operationItem.operation_id}
-              >
+            >
               {operationItem.operation_name}
             </MenuItem>
           ))}

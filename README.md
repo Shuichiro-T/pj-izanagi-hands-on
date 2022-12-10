@@ -4,6 +4,7 @@
 # ここで構築する内容
  - 各日別の画面項目をコンポーネント化する
  - コンポーネント化した部品でも情報を共有できるようにする
+ - ドロップボックスを選択可能にする
 
 # 日別の入力欄をコンポーネント化する
 
@@ -228,3 +229,71 @@ createContextを使用して共通して使用する情報をコンテキスト�
 useContextを使い先ほどexportしたMainContextを通じて情報を取得します。そのあと、コメントアウトしたSelectのコメントを外します。
 
 これでコンテキストを通じて情報のやりとりをコンポーネント同士で行うことができました。
+
+
+
+# ドロップボックスを選択可能にする。
+
+今のままではドロップボックスの選択ができません。選んだ値を保持ずる仕組みをいれていないためです。useStateという値が変更されたら、必要な画面
+を描画しなおすための仕組みを利用します。
+
+`components/DailyRowComponents.tsx`を編集し、useContextの下あたりに以下を追加します。
+
+```components/DailyRowComponents.tsx
+  const [operationValue1, setOperationValue1] = useState("1")
+
+  const [operationValue2, setOperationValue2] = useState("2")
+```
+
+useStateを使用すると更新を監視される変数と、変更を通知するための関数が返されます。引数は変数に格納される初期値になります。
+operationValue1を画面の描画に使用するとsetOperationValue1を呼び出した際に画面も更新されるようになります。
+
+次に、ドロップボックスを選んだら値が変わるようにします。Selectの部分を以下のように編集します。
+
+
+```components/DailyRowComponents.tsx
+        <Select
+          labelId="label-operation1"
+          id="operation1"
+          value={operationValue1}
+          onChange={(event: SelectChangeEvent) => {
+            setOperationValue1(event.target.value)
+          }}
+        >
+          {operationData?.OperationList.map((operationItem) => (
+            <MenuItem 
+              key={"key-operation1-" + operationItem.operation_id} 
+              value={operationItem.operation_id}
+            >
+              {operationItem.operation_name}
+            </MenuItem>
+          ))}
+        </Select>
+```
+
+Selectのvalueに先ほど作成した監視された変数を指定します。これを指定することで値が変わった際に、ドロップボックスの値を変えています。
+値が変更された際に動く関数をonChangeに指定します。関数の中で、setOperationValue1を呼び出し、ドロップボックスで選ばれた値を設定しています。
+
+これら２つを動作させると、選んだドロップボックスが画面に表示されるようになります。
+
+同様に作業内容２のSelectも編集します。
+
+```components/DailyRowComponents.tsx
+        <Select
+          labelId="label-operation2"
+          id="operation2"
+          value={operationValue2}
+          onChange={(event: SelectChangeEvent) => {
+            setOperationValue2(event.target.value)
+          }}
+        >
+          {operationData?.OperationList.map((operationItem) => (
+            <MenuItem 
+              key={"key-operation2-" + operationItem.operation_id} 
+              value={operationItem.operation_id}
+            >
+              {operationItem.operation_name}
+            </MenuItem>
+          ))}
+        </Select>
+```
