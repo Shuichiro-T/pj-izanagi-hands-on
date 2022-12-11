@@ -1,6 +1,8 @@
 import { MenuItem, Select, SelectChangeEvent, TableCell, TableRow, TextField } from "@mui/material";
-import { useContext, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { MainContext } from "../pages/main/[employees_id]";
+
+import { format, subHours } from 'date-fns' 
 
 type Props = {
   yearMonth:string
@@ -22,9 +24,57 @@ const DailyRowComponents = (props: Props) => {
 
   const { operationData } = useContext(MainContext);
 
+  const [startTime, setStartTime] = useState("09:00")
+
+  const [endTime, setEndTime] = useState("17:30")
+
   const [operationValue1, setOperationValue1] = useState("1")
 
+  const [operationTime1, setOperationTime1] = useState("00:00")
+
   const [operationValue2, setOperationValue2] = useState("2")
+
+  const [operationTime2, setOperationTime2] = useState("00:00")
+
+  //開始時刻が変更された場合
+  const startTimeChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
+    setStartTime(event.target.value)
+    setOperationTime1(diffTime(event.target.value, endTime, 9))
+    setOperationTime2("00:00")
+  }
+
+  //終了時刻が変更された場合
+  const endTimeChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
+    setEndTime(event.target.value)
+    setOperationTime1(diffTime(startTime, event.target.value))
+    setOperationTime2("00:00")
+  }
+
+  //作業１の時間が変更された場合
+  const operationTime1ChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
+    setOperationTime1(event.target.value)
+  }
+
+  //作業２の時間が変更された場合
+  const operationTime2ChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
+    setOperationTime2(event.target.value)
+
+    //残りの時間を作業1の時間へ反映させる
+    setOperationTime1(diffTime(event.target.value, operationTime1))
+  }
+
+  //HH:MM形式の差分を計算し、HH:MM形式で返す。
+  const diffTime = (startTime:string, endTime:string) => {
+    
+    const startDate = new Date(`1972-01-01 ${startTime}`)  
+
+    const endDate = new Date(`1972-01-01 ${endTime}`)  
+
+    const diffDate = new Date(endDate.getTime() - startDate.getTime())
+
+    //TZを外せなかったので、9時間減らす
+    return format(subHours(diffDate, 9), "HH:mm")
+  }
 
   return (
     <TableRow key={props.day}>
@@ -40,14 +90,16 @@ const DailyRowComponents = (props: Props) => {
         <TextField
           id="startTime"
           type="time"
-          defaultValue="09:00"
+          value={startTime}
+          onChange = {startTimeChangeHandler}
         />
       </TableCell>
       <TableCell>
         <TextField
           id="endTime"
           type="time"
-          defaultValue="17:30"
+          value={endTime}
+          onChange = {endTimeChangeHandler}
         />
       </TableCell>
       <TableCell>
@@ -70,7 +122,13 @@ const DailyRowComponents = (props: Props) => {
         </Select>
       </TableCell>
       <TableCell>
-        <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
+        <TextField
+          id="operationTime1"
+          type="time"
+          disabled
+          value={operationTime1}
+          onChange = {operationTime1ChangeHandler}
+        />
       </TableCell>
       <TableCell>
         <Select
@@ -92,7 +150,12 @@ const DailyRowComponents = (props: Props) => {
         </Select>
       </TableCell>
       <TableCell>
-        <TextField size="small" inputProps={{maxLength: 5, size:5}}></TextField>
+        <TextField
+          id="operationTime2"
+          type="time"
+          value={operationTime2}
+          onChange = {operationTime2ChangeHandler}
+        />
       </TableCell>
     </TableRow>
   )
