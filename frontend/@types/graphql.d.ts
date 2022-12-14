@@ -334,6 +334,7 @@ type Mutation = {
   UpdateDepartment: Department;
   UpdateEmployees: Employees;
   UpdateOperation: Operation;
+  UpsertDailyItemizedReports: Daily_Itemized_Reports;
 };
 
 
@@ -430,6 +431,13 @@ type MutationUpdateEmployeesArgs = {
 type MutationUpdateOperationArgs = {
   data: OperationUpdateInput;
   where: OperationWhereUniqueInput;
+};
+
+
+type MutationUpsertDailyItemizedReportsArgs = {
+  create: Daily_Itemized_ReportsCreateInput;
+  update: Daily_Itemized_ReportsUpdateInput;
+  where: Daily_Itemized_ReportsWhereUniqueInput;
 };
 
 type NestedBoolFilter = {

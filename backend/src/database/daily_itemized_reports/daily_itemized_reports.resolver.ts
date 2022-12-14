@@ -6,6 +6,7 @@ import {
     FindUniquedailyItemizedReportsArgs,
     daily_itemized_reports,
     UpdateOnedailyItemizedReportsArgs,
+    UpsertOnedailyItemizedReportsArgs,
 } from '../../@generated/prisma-nestjs-graphql/index';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { DailyItemizedReportsService } from './daily_itemized_reports.service';
@@ -37,6 +38,11 @@ export class DailyItemizedReportsResolver {
   @Mutation(() => daily_itemized_reports, { name: 'UpdateDailyItemizedReports' })
   async updateDailyItemizedReports(@Args() args: UpdateOnedailyItemizedReportsArgs) {
     return this.service.update({ ...args });
+  }
+
+  @Mutation(() => daily_itemized_reports, { name: 'UpsertDailyItemizedReports' })
+  async upsertDailyItemizedReports(@Args() args: UpsertOnedailyItemizedReportsArgs) {
+    return this.service.upsert({ ...args });
   }
 
   @Mutation(() => daily_itemized_reports, { name: 'DeleteDailyItemizedReports' })

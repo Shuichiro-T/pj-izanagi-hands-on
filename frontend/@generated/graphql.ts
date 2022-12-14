@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { GraphQLClient } from 'graphql-request';
 import { RequestInit } from 'graphql-request/dist/types.dom';
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 
 function fetcher<TData, TVariables>(client: GraphQLClient, query: string, variables?: TVariables, headers?: RequestInit['headers']) {
   return async (): Promise<TData> => client.request<TData, TVariables>(query, variables, headers);
@@ -33,6 +33,20 @@ export type GetOperationListQueryVariables = Exact<{
 
 
 export type GetOperationListQuery = { __typename?: 'Query', OperationList: Array<{ __typename?: 'operation', operation_id: string, operation_name: string }> };
+
+export type UpsertDailyItemizedReportsMutationVariables = Exact<{
+  year_month: Scalars['String'];
+  day: Scalars['String'];
+  employees_id: Scalars['Int'];
+  operation_id: Scalars['Int'];
+  operation_time: Scalars['DateTime'];
+  start_time: Scalars['DateTime'];
+  end_time: Scalars['DateTime'];
+  work_time: Scalars['DateTime'];
+}>;
+
+
+export type UpsertDailyItemizedReportsMutation = { __typename?: 'Mutation', UpsertDailyItemizedReports: { __typename?: 'daily_itemized_reports', year_month: string, day: string, employees_id: number, operation_id: number, operation_time?: any | null } };
 
 
 export const GetCalenderListDocument = `
@@ -142,3 +156,32 @@ export const useGetOperationListQuery = <
 
 useGetOperationListQuery.getKey = (variables: GetOperationListQueryVariables) => ['getOperationList', variables];
 ;
+
+export const UpsertDailyItemizedReportsDocument = `
+    mutation upsertDailyItemizedReports($year_month: String!, $day: String!, $employees_id: Int!, $operation_id: Int!, $operation_time: DateTime!, $start_time: DateTime!, $end_time: DateTime!, $work_time: DateTime!) {
+  UpsertDailyItemizedReports(
+    where: {year_month_day_employees_id_operation_id: {year_month: $year_month, day: $day, employees_id: $employees_id, operation_id: $operation_id}}
+    create: {operation_time: $operation_time, operation: {connect: {operation_id: $operation_id}}, daily_reports: {connectOrCreate: {where: {year_month_day_employees_id: {year_month: $year_month, day: $day, employees_id: $employees_id}}, create: {start_time: $start_time, end_time: $end_time, work_time: $work_time, employees: {connect: {employees_id: $employees_id}}, calendar: {connect: {year_month_day: {year_month: $year_month, day: $day}}}}}}}
+    update: {operation_time: {set: $operation_time}, operation: {connect: {operation_id: $operation_id}}, daily_reports: {upsert: {create: {start_time: $start_time, end_time: $end_time, work_time: $work_time, employees: {connect: {employees_id: $employees_id}}, calendar: {connect: {year_month_day: {year_month: $year_month, day: $day}}}}, update: {start_time: {set: $start_time}, end_time: {set: $end_time}, work_time: {set: $work_time}, employees: {connect: {employees_id: $employees_id}}, calendar: {connect: {year_month_day: {year_month: $year_month, day: $day}}}}}}}
+  ) {
+    year_month
+    day
+    employees_id
+    operation_id
+    operation_time
+  }
+}
+    `;
+export const useUpsertDailyItemizedReportsMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpsertDailyItemizedReportsMutation, TError, UpsertDailyItemizedReportsMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpsertDailyItemizedReportsMutation, TError, UpsertDailyItemizedReportsMutationVariables, TContext>(
+      ['upsertDailyItemizedReports'],
+      (variables?: UpsertDailyItemizedReportsMutationVariables) => fetcher<UpsertDailyItemizedReportsMutation, UpsertDailyItemizedReportsMutationVariables>(client, UpsertDailyItemizedReportsDocument, variables, headers)(),
+      options
+    );

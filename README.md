@@ -141,3 +141,169 @@ yarn add date-fns
 
 開始時間と終了時間は関数を指定するのみで、作業時間１と２は時刻入力の設定をしています。作業時間１は入力する必要がないので、入力しないような
 設定をしています。
+
+
+# 更新のためのバックエンド実装
+
+次に、更新するようのバックエンドを作成します。
+作業時間はなんどか更新される可能性があるので、Upsertという無ければ作成、あれば更新をするための関数をバックエンドに実装して呼び出すようにします。
+
+## Upsertの実装
+
+バックエンドの`daily_itemized_reports.resolver.ts`と`daily_itemized_reports.service.ts`を以下のように編集します。
+
+
+```src\database\daily_itemized_reports\daily_itemized_reports.resolver.ts
+...
+  @Mutation(() => daily_itemized_reports, { name: 'UpsertDailyItemizedReports' })
+  async upsertDailyItemizedReports(@Args() args: UpsertOnedailyItemizedReportsArgs) {
+    return this.service.upsert({ ...args });
+  }
+...
+```
+
+```src\database\daily_itemized_reports\daily_itemized_reports.resolver.ts
+...
+  async upsert(args: Prisma.daily_itemized_reportsUpsertArgs) {
+    return this.prisma.daily_itemized_reports.upsert(args);
+  }
+...
+```
+Prismaには自動的にUpsertが作られていますので、バックエンドで提供されるように呼び出すだけの処理を実装しています。
+
+
+## 呼び出し用のGraphQLファイルを作成
+
+次にフロントエンドにバックエンドを呼び出すようにgrapqhqlファイルを作成します。
+
+`upsertDailyItemizedReports.graphql`ファイルを作成し以下のように編集します。
+
+```graphql\upsertDailyItemizedReports.graphql
+
+mutation upsertDailyItemizedReports(
+  $year_month:String!, 
+  $day:String!, 
+  $employees_id:Int!, 
+  $operation_id:Int!, 
+  $operation_time:DateTime!, 
+  $start_time:DateTime!, 
+  $end_time:DateTime!,
+  $work_time:DateTime!) 
+{
+  UpsertDailyItemizedReports(
+  	where:{
+      year_month_day_employees_id_operation_id: {
+        year_month:$year_month,
+        day:$day,
+        employees_id:$employees_id,
+        operation_id:$operation_id
+      }
+  	}, 
+    create:{
+      operation_time:$operation_time,
+      operation: {
+        connect: {
+          operation_id: $operation_id
+        }
+      },
+      daily_reports: {
+        connectOrCreate: {
+          where: {
+            year_month_day_employees_id :{
+       				year_month:$year_month,
+     					day:$day,
+              employees_id:$employees_id
+            }
+          },
+          create: {
+            start_time:$start_time,
+            end_time:$end_time,
+            work_time:$work_time,
+            employees:{
+              connect: {
+                employees_id:$employees_id
+              }
+            },
+            calendar: {
+              connect: {
+                year_month_day: {
+                  year_month: $year_month,
+                  day:$day
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    update:{
+      operation_time:{set:$operation_time},
+      operation: {
+        connect: {
+          operation_id: $operation_id
+        }
+      },
+      daily_reports:{
+        upsert:{
+          create:{
+            start_time:$start_time,
+            end_time:$end_time,
+            work_time:$work_time,
+          	employees:{
+              connect: {
+                employees_id:$employees_id
+              }
+            },
+            calendar: {
+              connect: {
+                year_month_day: {
+                  year_month: $year_month,
+                  day:$day
+                }
+              }
+            }
+          },
+          update:{
+            start_time:{set:$start_time},
+            end_time:{set:$end_time},
+            work_time:{set:$work_time},
+          	employees:{
+              connect: {
+                employees_id:$employees_id
+              }
+            },
+            calendar: {
+              connect: {
+                year_month_day: {
+                  year_month: $year_month,
+                  day:$day
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ) {
+  	year_month
+    day
+    employees_id
+    operation_id
+    operation_time
+  }
+}
+
+```
+
+少し長くなっています。Upsertはパラメータを三つとり、Whereのデータが存在するかしないかで実行する処理を変更します。
+データがあればCreatのデータでデータを作成し、あればUpdateの内容で更新をします。
+
+DailyItemizedReportsはDailyReportsに外部キー制約があるので、同時にDailyReportsのUpsertを実行するmutationになっています。
+
+## コードを生成
+
+以下のコマンドを実行しgraphqlファイルからコードを生成します。
+
+```
+yarn generate  
+```

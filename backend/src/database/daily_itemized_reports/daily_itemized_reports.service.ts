@@ -26,6 +26,10 @@ export class DailyItemizedReportsService {
     return this.prisma.daily_itemized_reports.update(args);
   }
 
+  async upsert(args: Prisma.daily_itemized_reportsUpsertArgs) {
+    return this.prisma.daily_itemized_reports.upsert(args);
+  }
+
   async delete(args: Prisma.daily_itemized_reportsDeleteArgs) {
     return this.prisma.daily_itemized_reports.delete(args);
   }
