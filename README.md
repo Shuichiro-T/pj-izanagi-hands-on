@@ -18,7 +18,9 @@ cd　.\frontend\
 プロジェクトはからのフォルダに作成する必要があるため、`.gitkeep`を削除する。
 
 以下のコマンドを実行してNext.jsプロジェクトを作成する。
+```
 npx create-next-app . --typescript
+```
 
 エラーが出た場合、JavaScriptでプロジェクトが作成されてしまった場合、以下を実行する。
 
@@ -45,6 +47,26 @@ npx create-next-app . --typescript
 ```
 
 再度、コマンドを実行してプロジェクトを作成する。
+
+上記の対処１を実施してもJavaScriptでプロジェクトが作成されてしまった場合、対処２を試す。
+
+## 対処２：@latestを使用する
+
+frontendフォルダを削除後、下記コマンドを実行してプロジェクトを作成する。
+
+```
+npx create-next-app@latest
+```
+
+各種設定は下記の通り
+
+√ What is your project named? ... frontend
+√ Would you like to use TypeScript? ... Yes
+√ Would you like to use ESLint? ... Yes
+√ Would you like to use Tailwind CSS? ... No
+√ Would you like to use src/ directory? ... No
+√ Would you like to use App Router? (recommended) ... No
+√ Would you like to customize the default import alias? ... No
 
 
 ## 作成されたもの
