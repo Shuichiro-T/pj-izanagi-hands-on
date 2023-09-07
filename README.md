@@ -63,6 +63,12 @@ yarn start
 
 起動後、localhost:3000/graphqlへアクセスし、Playgroundが起動することを確認する。
 
+※「@apollo/server」関連のエラーが発生する場合、以下のコマンドを実行し、再度`yarn start`を実行する。
+
+```
+yarn add @apollo/server
+```
+
 ## PlaygroundでGraphQLを実行する
 
 Playgroundからバックエンドサービスを呼び出すことができます。左上のクエリ記入欄に以下のクエリを入れ、
