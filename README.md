@@ -12,6 +12,12 @@
 npm install -g @nestjs/cli
 ```
 
+# yarnのインストール
+以下コマンドを実行する。yarnのコマンドラインインターフェース（CLI）が使えるようになる。
+```
+npm install -g yarn
+```
+
 
 # NestJSプロジェクトの作成
 NestJSはNode.jsのサーバサイドフレームワークです。CLIを使いプロジェクトを作成します。
@@ -144,9 +150,36 @@ nest g s prisma
 |  prisma/prisma.service.ts  |  NestJSからPrismaを呼ぶようのサービス  |
 
 
+# prisma.serviceの編集
+
+`src/prisma/prisma.service.ts`を以下の通りに編集を行う。
+
+```TypeScript
+import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
+
+@Injectable()
+export class PrismaService extends PrismaClient implements OnModuleInit {
+  constructor() {
+    super({ log: ['info', 'warn', 'error'] });
+  }
+
+  async onModuleInit() {
+    await this.$connect();
+  }
+
+  async enableShutdownHooks(app: INestApplication) {
+    process.on('beforeExit', async () => {
+      await app.close();
+    });
+  }
+}
+```
+
+
 # schema.prismaの編集
 
-`prisma/schema.prisma`の定義を以下の分を追加しする。
+`prisma/schema.prisma`の定義を以下の文を追加する。
 
 ```json
 generator nestgraphql {
@@ -335,3 +368,15 @@ export class AppModule {}
 ```
 
 AppModuleにGraphQLを追加し、NestJSでGraphQLを使用できるように実装します。先ほど作成したDatabaseModuleモジュールもインポートし、NestJSから使用できるようにします。
+
+# prettierが改行に関してエラーを出す場合の対処法。
+
+`.package.json`のscriptsにある`lint`の設定を以下のように編集する。
+
+```json
+"lint": "eslint \"{src,apps,libs,test}/**/*.ts\" \"{src,apps,libs,test}/**/**/*.ts\" --fix",
+```
+その後以下コマンドを使用して、改行コードを変換する。
+```
+yarn lint
+```
