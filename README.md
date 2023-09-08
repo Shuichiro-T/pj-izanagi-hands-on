@@ -69,8 +69,12 @@ query getCalenderList($where: calendarWhereInput!) {
 コードの生成には[GraphQL Code Generator](https://the-guild.dev/graphql/codegen)を使用します。
 
  ```shell
- yarn add  -D @graphql-codegen/typescript @graphql-codegen/typescript-graphql-request @graphql-codegen/typescript-operations @graphql-cli/typescript @graphql-codegen/typescript-react-query @graphql-codegen/add
+ yarn add  -D @graphql-codegen/typescript @graphql-codegen/typescript-graphql-request @graphql-codegen/typescript-operations @graphql-codegen/typescript-react-query @graphql-codegen/add
  ```
+
+```shell
+yarn add -D typescript @graphql-codegen/cli
+```
 
 ```shell
 yarn add graphql-request graphql @tanstack/react-query
@@ -136,18 +140,26 @@ yarn generate
 作成されたコードを使用して、実際に画面から呼び出せるよう実装を行います。
 ## バックエンドの設定変更
 
-始めにバックエンドの設定を変更します。`backend/src/app.module.ts`を開きGraphQLModule.forRootの引数に以下を追加を追加します。
+始めにバックエンドの設定を変更します。`backend/src/main.ts`を開き7行目に以下を追加します。
 
 
-```backend/src/app.module.ts
-      ...
-      cors: { 
-        origin: "*"
-      },
-      ...
+```backend/src/main.ts
+app.enableCors();
 ```
 
-フロントエンドとバックエンドが異なるドメインで動く際に、必要な設定で今回は異なるポート番号で動いているため必要になります。アスタリスクは全てを受け入れる設定なので、本来であれば受け入れるべきドメインのみ記述します。既にバックエンドを起動していた場合、再起動してください。
+フロントエンドとバックエンドが異なるドメインで動く際に、必要な設定で今回は異なるポート番号で動いているため必要になります。
+引数でオプションを設定することができ、今回のように何も渡さない場合のデフォルトの構成は次の通りとなります。
+
+```
+{
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}
+```
+
+アスタリスクは全てを受け入れる設定なので、本来であれば受け入れるべきドメインのみ記述します。既にバックエンドを起動していた場合、再起動してください。
 
 ## GraphQL用クライアント作成関数
 
