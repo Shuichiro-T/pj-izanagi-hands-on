@@ -33,6 +33,9 @@ const MainPage: NextPage = () => {
       where: {
         department_id: employeesData?.Employees?.department_id
       }
+    },
+    {
+      enabled: !isLoadingEmployees
     }
   )
   const departmentName = deparmentData?.Department?.department_name
