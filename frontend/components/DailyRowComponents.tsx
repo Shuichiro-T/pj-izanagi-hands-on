@@ -39,7 +39,7 @@ const DailyRowComponents = (props: Props) => {
   //開始時刻が変更された場合
   const startTimeChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
     setStartTime(event.target.value)
-    setOperationTime1(diffTime(event.target.value, endTime, 9))
+    setOperationTime1(diffTime(event.target.value, endTime))
     setOperationTime2("00:00")
   }
 
