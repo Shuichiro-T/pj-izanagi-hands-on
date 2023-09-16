@@ -64,7 +64,7 @@ yarn add date-fns
  //開始時刻が変更された場合
   const startTimeChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
     setStartTime(event.target.value)
-    setOperationTime1(diffTime(event.target.value, endTime, 9))
+    setOperationTime1(diffTime(event.target.value, endTime))
     setOperationTime2("00:00")
   }
 
@@ -155,9 +155,15 @@ yarn add date-fns
 
 ```src\database\daily_itemized_reports\daily_itemized_reports.resolver.ts
 ...
-  @Mutation(() => daily_itemized_reports, { name: 'UpsertDailyItemizedReports' })
-  async upsertDailyItemizedReports(@Args() args: UpsertOnedailyItemizedReportsArgs) {
-    return this.service.upsert({ ...args });
+  @Mutation(() => daily_itemized_reports, {
+    name: 'UpsertDailyItemizedReports',
+  })
+  async upsertDailyItemizedReports(
+    @Args() args: UpsertOnedailyItemizedReportsArgs,
+  ) {
+    return this.service.upsert({
+      ...args,
+    } as Prisma.daily_itemized_reportsUpsertArgs);
   }
 ...
 ```
